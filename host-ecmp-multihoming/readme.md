@@ -1,12 +1,12 @@
-# Multi homing socket based services without proprietary components #
+# Multihoming socket based services without proprietary components #
 
-There are quite a few different methods to multi home a server application based on IP.
+There are quite a few different methods to multihome a server application based on IP.
 One quite common option is to assign the IP address on which the server is listening to a LACP bond interface for active-active connectivity to two or more switches.
 This works usually quite well but the multi-chassis link-aggregation style black box proprietary components to the network.
 
 One approach to work around this is to use ESI lags with EVPN but this is quite complex for what it provides and the service address is still bound to a single ARP.
 
-In this lab I'll try to demonstrate a method to overcome both of the above limitations, produce active-active/multi homed connectivity that also allows for anycast load balancing without any black magic proprietary components.
+In this lab I'll try to demonstrate a method to overcome both of the above limitations, produce active-active/multihomed connectivity that also allows for anycast load balancing without any black magic proprietary components.
 
 ## Concept and building blocks ##
 
