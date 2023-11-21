@@ -2,7 +2,7 @@
 
 This lab covers a five node lab running IS-IS underlay, VXLAN with iBGP/EVPN control plane and two PCs.
 
-![Topology diagram](./lab_topology.jpg "Text to show on mouseover")
+![Topology diagram](./lab_topology.jpg "Lab topology")
 
 Document is split in three files:
 

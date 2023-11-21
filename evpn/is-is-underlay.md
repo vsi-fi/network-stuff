@@ -14,6 +14,15 @@ I would have also been possible to configure eBGP based underlay lay but as I wa
 
 What follows is the 'most interesting' configuration sections of the IS-IS based underlay.
 
+### Topology ###
+
+In the below picture the red lines represent the links on which IS-IS is running in point-to-point mode.
+Green lines point to the 'payload' e.g. loopback addresses that I wish to announce via IS-IS.
+
+Black dotted lines represent the iBGP sessions used to build the EVPN control plane, more details available [here](https://github.com/vsi-fi/network-stuff/blob/main/evpn/ibgp-overlay.md) 
+
+![](./underlay_overlay.jpg "IS-IS topology")
+
 ### Interfaces ###
 We need to configure couple of addresses for our lab to get the underlay working.
 

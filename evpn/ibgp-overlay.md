@@ -31,6 +31,20 @@ That being said, this approach also has at least few caveats:
 * This approach uses route-reflectors at the spine.
 * Scaling is more limited to what could be achieved by using eBGP.
 
+## Topology ##
+
+![](./vxlan_overlay.jpg "VXLAN tunnels between VTEPs on loopbacks")
+
+Underlay is represented by the red lines on physical links on which IS-IS is running in point-to-point mode to advertise the loopback addresses on the green lines.
+More details about the underlay available [here](https://github.com/vsi-fi/network-stuff/blob/main/evpn/is-is-underlay.md)
+
+Black dotted lines are the iBGP sessions from the leaf devices to the spines on which the route reflectors (RRs) are running. 
+These iBGP sessions will carry the evpn address-family which is used as a control plane for VXLAN.
+
+In the above picture the pink dotted lines represent L2 traffic between the leafs whereas blue dotted line represents L3 traffic between different VRF instances.
+It should be noted that the virtual tunnel endpoints (VTEPs) are listening on the loopback interfaces of the leafs.
+
+
 ## Configuring basic iBGP ##
 
 The default rule of iBGP is to *not* advertise the routes learned from other iBGP speakers on wards to other iBGP speakers. Meaning, that a full mesh of iBGP sessions is expected within a iBGP domain.
