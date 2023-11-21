@@ -1,0 +1,24 @@
+auto lo
+iface lo inet static
+    address 127.0.0.1
+    netmask 255.0.0.0 
+
+auto eth0
+iface eth0 inet static
+    address 10.10.1.2
+    broadcast 10.10.1.3
+    netmask 255.255.255.252
+
+auto eth1
+iface eth1 inet static
+    address 10.10.2.2
+    broadcast 10.10.2.3
+    netmask 255.255.255.252
+
+iface lo inet static
+    address 192.168.100.1
+    netmask 255.255.255.255
+
+
+pc:~# 
+
