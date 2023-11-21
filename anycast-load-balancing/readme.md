@@ -201,4 +201,63 @@ If one wanted to use different AS numbers on the PCs then this patch might be re
     [edit]
 
 It does just that by disabling the default behavior of requiring the same neighbor AS.
- 
+
+It is also possible to configure this as active-passive by altering the preference value in the BGP import policy:
+
+    root@S-SW-2# run show route forwarding-table destination 192.168.100.1 table default
+    Routing table: default.inet
+    Internet:
+    Destination        Type RtRef Next hop           Type Index    NhRef Netif
+    192.168.100.1/32   user     0                    ulst  1048574     2
+                                  10.10.2.2          ucst      591     4 ge-0/0/9.0
+                                  10.10.4.2          ucst      596     4 ge-0/0/8.0
+
+    [edit]
+
+    root@S-SW-2# show |compare                                                    
+    [edit policy-options policy-statement IMPORT-BGP-SERVERS]
+    +    term SERVER-SERVICE-ADDRESS-ACTIVE {
+    +        from {
+    +            neighbor 10.10.2.2;
+    +            prefix-list SERVER-SERVICE-ADDRESS;
+    +        }
+    +        then {
+    +            preference 90;
+    +            accept;
+    +        }
+    +    }
+    +    term SERVER-SERVICE-ADDRESS-PASSIVE {
+    +        from {
+    +            neighbor 10.10.4.2;
+    +            prefix-list SERVER-SERVICE-ADDRESS;
+    +        }
+    +        then {
+    +            preference 95;
+    +            accept;
+    +        }
+    +    }
+    -    term SERVER-SERVICE-ADDRESS {
+    -        from {
+    -            prefix-list SERVER-SERVICE-ADDRESS;
+    -        }
+    -        then {
+    -            preference 90;
+    -            accept;
+    -        }
+    -    }
+
+    [edit]
+
+    root@S-SW-2# run show route forwarding-table destination 192.168.100.1 table default
+    Routing table: default.inet
+    Internet:
+    Destination        Type RtRef Next hop           Type Index    NhRef Netif
+    192.168.100.1/32   user     0 10.10.2.2          ucst      591     4 ge-0/0/9.0
+
+    [edit]
+
+Obviously more elegant solution would be to control this from the host side by using bgp attributes such as MED or AS path prepending or even communities that impact local preference etc.
+
+
+
+
