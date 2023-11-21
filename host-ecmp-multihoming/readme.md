@@ -23,7 +23,7 @@ To accomplish this I need to:
 Below is a topology diagram of the setup. Black lines between the devices represent IGP adjacencies whereas the red ones are eBGP.
 Host is configured with its service address on a loopback interface.
 
-![Topology diagram](./multi\_home.jpg "Lab topology")
+![Topology diagram](./multi_home.jpg "Lab topology")
 
 
 ## Configuration on the host side ##
@@ -108,7 +108,7 @@ Bird is configured (per default) via file /etc/bird.conf
         interface "eth1";
     }
 
-    filter service\_address {
+    filter service_address {
         #I want to export only the service route
         if (net = 192.168.100.1/32) then {
             accept;
@@ -118,20 +118,20 @@ Bird is configured (per default) via file /etc/bird.conf
 
     #these are the switches to which the routes should be advertised
     #i am lazy and i'll import whatever the switch decides to give me, in reality filtering is highly recommended
-    protocol bgp sw\_sw\_1 {
+    protocol bgp sw_sw_1 {
         local as 65000;
         neighbor 10.10.1.1 as 65001;
         ipv4 {
-            export filter service\_address;
+            export filter service_address;
             import all;
         };
     }
 
-    protocol bgp sw\_sw\_2 {
+    protocol bgp sw_sw_2 {
         local as 65000;
         neighbor 10.10.2.1 as 65001;
         ipv4 {
-            export filter service\_address;
+            export filter service_address;
             import all;
         };
     }
@@ -258,17 +258,17 @@ Seems OK on the device side. Lets check the host.
     kernel1    Kernel     master4    up     12:42:43.825  
     device1    Device     ---        up     12:42:43.825  
     direct1    Direct     ---        up     12:42:43.825  
-    sw\_sw\_1    BGP        ---        up     12:42:46.002  Established   
-    sw\_sw\_2    BGP        ---        up     12:42:48.108  Established   
+    sw_sw_1    BGP        ---        up     12:42:46.002  Established   
+    sw_sw_2    BGP        ---        up     12:42:48.108  Established   
     bird> 
 
 All the protocols are in their expected state.
 
     bird> show route
     Table master4:
-    0.0.0.0/0            unicast [sw\_sw\_1 12:42:46.002] * (100) [AS65001i]
+    0.0.0.0/0            unicast [sw_sw_1 12:42:46.002] * (100) [AS65001i]
 	    via 10.10.1.1 on eth0
-                        unicast [sw\_sw\_2 12:42:48.108] (100) [AS65001i]
+                        unicast [sw_sw_2 12:42:48.108] (100) [AS65001i]
 	    via 10.10.2.1 on eth1
     10.10.2.0/30         unicast [direct1 12:42:43.825] * (240)
 	    dev eth1
