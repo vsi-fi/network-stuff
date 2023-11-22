@@ -1,0 +1,51 @@
+set groups iBGP-AUTH protocols bgp group <*> authentication-algorithm aes-128-cmac-96
+set groups iBGP-AUTH protocols bgp group <*> authentication-key-chain iBGP-AUTH
+set groups IS-IS-AUTHENTICATION protocols isis level 1 authentication-key "$9$d8bY4ZUiP5QtuL7-w2gf5QF3/tuBESlJGF6CAB1cSr"
+set groups IS-IS-AUTHENTICATION protocols isis level 1 authentication-type md5
+set groups IS-IS-BFD protocols isis interface <ge-0/0/*> family inet bfd-liveness-detection minimum-interval 1000
+set groups IS-IS-BFD protocols isis interface <ge-0/0/*> family inet bfd-liveness-detection multiplier 4
+set system host-name SITE-1-SPINE-1-B
+set system root-authentication encrypted-password "$6$Kllc42uv$DEL/Yo68Q0LoCNHzxmouxQ11w1waXndcgQy..GrbATO4..ZQmxBBQ4PunIvn1udtbdecY78SgkB36NWbB1MUW."
+set system arp aging-timer 5
+set system syslog file interactive-commands interactive-commands any
+set system syslog file messages any notice
+set system syslog file messages authorization info
+set system processes dhcp-service traceoptions file dhcp_logfile
+set system processes dhcp-service traceoptions file size 10m
+set system processes dhcp-service traceoptions level all
+set system processes dhcp-service traceoptions flag packet
+set security authentication-key-chains key-chain iBGP-AUTH tolerance 600
+set security authentication-key-chains key-chain iBGP-AUTH key 0 secret "$9$NidwgaJUmPT1RLx7NsYg4aUkmTznuBRxNiq.PzF"
+set security authentication-key-chains key-chain iBGP-AUTH key 0 start-time "2023-11-20.06:10:00 +0000"
+set interfaces ge-0/0/0 unit 0 family inet unnumbered-address lo0.0
+set interfaces ge-0/0/0 unit 0 family iso
+set interfaces ge-0/0/1 unit 0 family inet unnumbered-address lo0.0
+set interfaces ge-0/0/1 unit 0 family iso
+set interfaces ge-0/0/2 unit 0 family inet unnumbered-address lo0.0
+set interfaces ge-0/0/2 unit 0 family iso
+set interfaces ge-0/0/3 unit 0 family inet unnumbered-address lo0.0
+set interfaces ge-0/0/3 unit 0 family iso
+set interfaces lo0 unit 0 family inet address 10.1.1.2/32
+set interfaces lo0 unit 0 family iso address 49.0002.0010.0001.0001.0002.00
+set multi-chassis mc-lag consistency-check
+set policy-options policy-statement ECMP then load-balance per-packet
+set routing-options router-id 10.1.1.2
+set routing-options forwarding-table export ECMP
+set protocols router-advertisement interface fxp0.0 managed-configuration
+set protocols bgp group OVERLAY apply-groups iBGP-AUTH
+set protocols bgp group OVERLAY type internal
+set protocols bgp group OVERLAY passive
+set protocols bgp group OVERLAY family evpn signaling
+set protocols bgp group OVERLAY cluster 10.1.1.0
+set protocols bgp group OVERLAY local-as 65001
+set protocols bgp group OVERLAY allow 10.1.10.0/24
+set protocols isis apply-groups IS-IS-BFD
+set protocols isis apply-groups IS-IS-AUTHENTICATION
+set protocols isis interface ge-0/0/0.0 point-to-point
+set protocols isis interface ge-0/0/1.0 point-to-point
+set protocols isis interface ge-0/0/2.0 point-to-point
+set protocols isis interface ge-0/0/3.0 point-to-point
+set protocols isis interface lo0.0 passive
+set protocols lldp interface all
+set protocols lldp-med interface all
+

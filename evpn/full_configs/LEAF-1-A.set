@@ -1,0 +1,84 @@
+set groups ESI interfaces <*> esi auto-derive lacp-pe-system-id-and-admin-key
+set groups ESI interfaces <*> esi all-active
+set groups ESI interfaces <*> aggregated-ether-options lacp active
+set groups ESI interfaces <*> aggregated-ether-options lacp periodic fast
+set groups ESI interfaces <*> aggregated-ether-options lacp system-id 00:00:00:00:00:01
+set groups iBGP-AUTH protocols bgp group <*> authentication-algorithm aes-128-cmac-96
+set groups iBGP-AUTH protocols bgp group <*> authentication-key-chain iBGP-AUTH
+set groups IS-IS-BFD protocols isis interface <ge-0/0/*> family inet bfd-liveness-detection minimum-interval 1000
+set groups IS-IS-BFD protocols isis interface <ge-0/0/*> family inet bfd-liveness-detection multiplier 4
+set groups IS-IS-AUTHENTICATION protocols isis level 1 authentication-key "$9$d8bY4ZUiP5QtuL7-w2gf5QF3/tuBESlJGF6CAB1cSr"
+set groups IS-IS-AUTHENTICATION protocols isis level 1 authentication-type md5
+set system host-name SITE-1-LEAF-1-A
+set system root-authentication encrypted-password "$6$Kllc42uv$DEL/Yo68Q0LoCNHzxmouxQ11w1waXndcgQy..GrbATO4..ZQmxBBQ4PunIvn1udtbdecY78SgkB36NWbB1MUW."
+set system arp aging-timer 5
+set system syslog file interactive-commands interactive-commands any
+set system syslog file messages any notice
+set system syslog file messages authorization info
+set system processes dhcp-service traceoptions file dhcp_logfile
+set system processes dhcp-service traceoptions file size 10m
+set system processes dhcp-service traceoptions level all
+set system processes dhcp-service traceoptions flag packet
+set chassis aggregated-devices ethernet device-count 10
+set security authentication-key-chains key-chain iBGP-AUTH tolerance 600
+set security authentication-key-chains key-chain iBGP-AUTH key 0 secret "$9$NidwgaJUmPT1RLx7NsYg4aUkmTznuBRxNiq.PzF"
+set security authentication-key-chains key-chain iBGP-AUTH key 0 start-time "2023-11-20.06:10:00 +0000"
+set interfaces ge-0/0/0 unit 0 family inet unnumbered-address lo0.0
+set interfaces ge-0/0/0 unit 0 family iso
+set interfaces ge-0/0/1 unit 0 family inet unnumbered-address lo0.0
+set interfaces ge-0/0/1 unit 0 family iso
+set interfaces ge-0/0/9 ether-options 802.3ad ae9
+set interfaces ae9 apply-groups ESI
+set interfaces ae9 unit 0 family ethernet-switching vlan members VLAN10
+set interfaces irb unit 10 virtual-gateway-accept-data
+set interfaces irb unit 10 family inet address 192.168.10.11/24 virtual-gateway-address 192.168.10.1
+set interfaces lo0 unit 0 family inet address 10.1.10.1/32
+set interfaces lo0 unit 0 family iso address 49.0002.0010.0001.0010.0001.00
+set multi-chassis mc-lag consistency-check
+set policy-options policy-statement ECMP then load-balance per-packet
+set policy-options policy-statement VRF-IMPORT-SITE-1-TENANT-1 term SERVICE from community SITE-1-SERVICE-1
+set policy-options policy-statement VRF-IMPORT-SITE-1-TENANT-1 term SERVICE then accept
+set policy-options policy-statement VRF-IMPORT-SITE-1-TENANT-1 term SITE-1-TENANT-1 from community SITE-1-TENANT-1
+set policy-options policy-statement VRF-IMPORT-SITE-1-TENANT-1 term SITE-1-TENANT-1 then accept
+set policy-options community SITE-1-SERVICE-1 members target:65001:3100
+set policy-options community SITE-1-TENANT-1 members target:65001:310
+set routing-instances SITE-1-L2 instance-type mac-vrf
+set routing-instances SITE-1-L2 protocols evpn encapsulation vxlan
+set routing-instances SITE-1-L2 protocols evpn multicast-mode ingress-replication
+set routing-instances SITE-1-L2 vtep-source-interface lo0.0
+set routing-instances SITE-1-L2 service-type vlan-aware
+set routing-instances SITE-1-L2 interface ae9.0
+set routing-instances SITE-1-L2 route-distinguisher 10.1.10.1:100
+set routing-instances SITE-1-L2 vrf-target target:65001:100
+set routing-instances SITE-1-L2 vlans VLAN10 vlan-id 10
+set routing-instances SITE-1-L2 vlans VLAN10 l3-interface irb.10
+set routing-instances SITE-1-L2 vlans VLAN10 vxlan vni 10010
+set routing-instances SITE-1-L2 vlans VLAN20 vlan-id 20
+set routing-instances SITE-1-L2 vlans VLAN20 l3-interface irb.20
+set routing-instances SITE-1-L2 vlans VLAN20 vxlan vni 10020
+set routing-instances SITE-1-TENANT-1 instance-type vrf
+set routing-instances SITE-1-TENANT-1 protocols evpn ip-prefix-routes advertise direct-nexthop
+set routing-instances SITE-1-TENANT-1 protocols evpn ip-prefix-routes encapsulation vxlan
+set routing-instances SITE-1-TENANT-1 protocols evpn ip-prefix-routes vni 310
+set routing-instances SITE-1-TENANT-1 interface irb.10
+set routing-instances SITE-1-TENANT-1 route-distinguisher 10.1.1.1:310
+set routing-instances SITE-1-TENANT-1 vrf-import VRF-IMPORT-SITE-1-TENANT-1
+set routing-instances SITE-1-TENANT-1 vrf-target target:65001:310
+set routing-options router-id 10.1.10.1
+set routing-options forwarding-table export ECMP
+set protocols router-advertisement interface fxp0.0 managed-configuration
+set protocols bgp group OVERLAY apply-groups iBGP-AUTH
+set protocols bgp group OVERLAY type internal
+set protocols bgp group OVERLAY local-address 10.1.10.1
+set protocols bgp group OVERLAY family evpn signaling
+set protocols bgp group OVERLAY local-as 65001
+set protocols bgp group OVERLAY neighbor 10.1.1.1
+set protocols bgp group OVERLAY neighbor 10.1.1.2
+set protocols isis apply-groups IS-IS-BFD
+set protocols isis apply-groups IS-IS-AUTHENTICATION
+set protocols isis interface ge-0/0/0.0 point-to-point
+set protocols isis interface ge-0/0/1.0 point-to-point
+set protocols isis interface lo0.0 passive
+set protocols lldp interface all
+set protocols lldp-med interface all
+
