@@ -14,11 +14,18 @@ This is actually very minor change to the setup on the previously mentioned lab:
 * Configure link networks and advertise the service address.
 * Enable multipathing for BGP.
   * if using different AS numbers for PCs then add multiple-as as well.
+* Should lend itself well for use cases like dns resolvers and http -style services. 
 
 Similarly to the previously mentioned [document](https://github.com/vsi-fi/network-stuff/tree/main/host-ecmp-multihoming) the red lines indicate eBGP and black lines are IGP.
 I've added two machines on two new subnets, 10.10.3.0/30 and 10.10.4.0/24, both have the same service address in their loopback as original pc in the middle: 192.168.100.1/32.
 Hosts will also similarly advertise the said address to the devices who in turn will have their multipath -knob turned on for the BGP so that we can have multiple BGP learned paths to the same destination service address. 
 This, together with equal cost multipathing (ECMP) allows for load balancing from the direction of the rest of the network and quick failovers if the advertisement is withdrawn.
+
+The actual load balancing is based on the hashing that takes places during traffic forwarding (ECMP), this has couple of concequences:
+
+* Devices have no understanding of the application load. They do not have knowledge of latency or other metrics outside of what is provided via routing protocol.
+* Ideally host would withdraw the route announcement in case the application producing the service dies.
+* Some applications might have funny state concepts that will not work with this if the traffic flows end up in different hosts.
 
 ![Topology diagram](./anycast.jpg "Lab topology")
 
