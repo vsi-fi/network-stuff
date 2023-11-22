@@ -256,7 +256,7 @@ It is also possible to configure this as active-passive by altering the preferen
 
     [edit]
 
-Obviously more elegant solution would be to control this from the host side by using bgp attributes such as MED or AS path prepending or even communities that impact local preference etc.
+Obviously more elegant solution would be to control this from the host side by setting BGP communities that impact preference values or potentially by using BGP attributes such as MED or AS path prepending in case iBGP is present on the data centre etc.
 
 
 
