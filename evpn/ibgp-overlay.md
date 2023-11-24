@@ -204,7 +204,7 @@ There are most likely numerous other ways to implement this scenario but I've op
 The two routing-instance types share couple of common aspects to them with different payloads among which I'd highlight the following:
 
 * **route-distinguisher:** To keep the route advertisements unique even if they'd contain overlapping information (between instances), such as subnets, mac-address etc. 
-* **route-target:** Is used to 'import' and 'export' routes from/to VRF instance. Route target is a BGP community on which filter can be based on. 
+* **route-target:** Is used to 'import' and 'export' routes from/to VRF instance. Route target is a BGP extended community on which filter can be based on. 
 
 ### mac-vrf ###
 
@@ -321,7 +321,7 @@ The above mentioned communities are defined as below:
 With the above policy we can not only import routes from other devices who are advertising the same route-target but also routes using other route-target.
 This allows for a 'hub-and-spoke' where a common 'service-vrf' can be shared between the 'tenants' whilst the tenants do not see each others routes.
 
-## Verifying EVPN on the core ##
+## Verifying EVPN in the core ##
 
 From the BGP section we already know that the evpn table is being populated. Lets try to understand the differences to classical mac learning from the mac-table perspective:
 
@@ -337,7 +337,7 @@ From the BGP section we already know that the evpn table is being populated. Let
     root@SITE-1-LEAF-1-A> 
 
 Above we can see two host macs and one anycast gateway mac.
-* **00:00:5e:00:01:01** This is an anycast gateway mac, think of this like vrrp next-hope but better.
+* **00:00:5e:00:01:01** This is an anycast gateway mac, think of this like vrrp next-hop but better.
 * **0c:ea:18:b8:00:01** locally learned mac from link aggregate ae9
 * **2c:6b:f5:38:c3:f0** mac learned from a remote device at 10.1.10.2 (LEAF-1-B)
 
