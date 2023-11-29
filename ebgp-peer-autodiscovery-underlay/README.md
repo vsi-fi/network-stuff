@@ -95,6 +95,7 @@ group UNDERLAY {
 ```
 One can verify the BGP status the usual way:
 
+```
 root@CORE-1# run show bgp summary 
 
 Warning: License key missing; requires 'bgp' license
