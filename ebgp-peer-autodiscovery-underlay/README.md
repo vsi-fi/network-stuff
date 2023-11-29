@@ -252,7 +252,7 @@ This is especially true since we have not configured any routable addressing for
 
 It is trivial to create a firewall filter to limit the access to tcp/179 but this makes the whole concept of dynamic-neighbor bit questionable as the addresses would have to be preconfigured somewhere.
 
-Having authentication would be handy as its possible to preprovision this without much of a hasle but either I haven't figured out how this works in this case or it is not possible at the moement.
+Having authentication would be handy as its possible to preprovision this without much of a hassle but either I haven't figured out how this works in this case or it is not possible at the moment.
 
 
 
