@@ -200,6 +200,40 @@ root@CORE-1#
 
 ```
 
+## Whether peer-as needs to be configured ##
+
+It would seem that Cumulus Linux can be configured so that it [doesn't require peer-as](https://docs.nvidia.com/networking/display/onyxv3104006/bgp#src-99409804_BGP-BGPUnnumbered).
+
+If I try to leave out the peer-as -knob from my test subject I get:
+
+```
+root@CORE-1# commit 
+[edit protocols]
+  'bgp'
+    warning: requires 'bgp' license
+[edit protocols]
+  'bgp'
+    Error in group UNDERLAY:
+peer AS or list must be configured if peer-auto-discovery is configured
+error: configuration check-out failed
+```
+
+It is possible to accomplish something quite similar with as-lists:
+
+```
+root@CORE-1# show|compare 
+[edit policy-options]
++   as-list UNDERLAY members 64512-65534;
+[edit protocols bgp group UNDERLAY]
+!     inactive: peer-as 65001;
++    peer-as-list UNDERLAY;
+
+[edit]
+
+E.g. create a list (range) of accepted AS numbers and apply that to the peer group.
+
+This might be handy if one wants to allocate an AS per rack or something else - which might also remote the need to the as-override -style hacks since racks would have unique AS numbers. 
+
 ## Word on avoiding accidents ##
 
 It seems that dynamic-neighbor cannot be configured with authentication algorithm:
