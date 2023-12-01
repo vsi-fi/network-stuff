@@ -26,6 +26,7 @@ The actual load balancing is based on the hashing that takes places during traff
 * Devices have no understanding of the application load. They do not have knowledge of latency or other metrics outside of what is provided via routing protocol.
 * Ideally host would withdraw the route announcement in case the application producing the service dies.
 * Some applications might have funny state concepts that will not work with this if the traffic flows end up in different hosts.
+* There is a chance of reshuffling of traffic flows in case one of the members in the ECMP group fails.
 
 ![Topology diagram](./anycast.jpg "Lab topology")
 
@@ -130,6 +131,21 @@ And add bird to run at boot time followed by a reboot
 You can look up the contents of the routing policies from [here](https://github.com/vsi-fi/network-stuff/tree/main/host-ecmp-multihoming#configuring-the-network-devices)
 
 Key element here is the multipath -knob as it allows for load sharing between multiple eBGP paths to the same prefix, in this case the service address.
+
+### Resilient hashing ###
+
+One thing worth pointing out is the ecmp-resilient-hash -[knob](https://www.juniper.net/documentation/us/en/software/junos/interfaces-ethernet-switches/topics/topic-map/switches-interface-resilient-hashing.html) under forwarding-options. 
+
+This options tries to keep the flows on their pre-existing paths if links are added/removed. This can be beneficial in order to minimise the session breakage towards the surviving members of the load balancing group.
+
+```
+show configuration forwarding-options
+enhanced-hash-key {
+    ecmp-resilient-hash;
+}
+
+{master:0}
+```
 
 ## Verification ##
 
