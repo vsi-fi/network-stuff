@@ -234,7 +234,7 @@ root@CORE-1# show|compare
 
 E.g. create a list (range) of accepted AS numbers and apply that to the peer group.
 
-This might be handy if one wants to allocate an AS per rack or something else - which might also remote the need to the as-override -style hacks since racks would have unique AS numbers. 
+This might be handy if one wants to allocate an AS per rack or something else - which might also remove the need for the as-override -style hacks since racks would have unique AS numbers. 
 
 ## Word on avoiding accidents ##
 
