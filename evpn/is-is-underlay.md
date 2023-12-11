@@ -159,7 +159,7 @@ However, it is worth noting that there are rather significant dissimilarities as
 * IS-IS uses OSI addressing.
 * IS-IS does not have a backup designated intermediate system whereas OSPF has backup designated router. 
 * IS-IS doesn't run the shortest path calculation when a network prefix goes down, but when the status of a intermediate system (router) changes. To put this other words: SPF is ran to determine the "best" path to a router, not to the prefixes mentioned in the link state advertisements. Partial routing table calculation is used to generate the routing table. 
-* IS-IS doesn't do periodic database refresh whereas OSPF (by default does).
+* IS-IS doesn't do periodic database refresh whereas OSPF (by default) does.
 * IS-IS has the concept of levels - this produces part of the hierarchy component:
     * Level 2 forms the backbone of an IS-IS network
         * Level 2 routers form adjacencies only with other level 2 routers and L1/L2 routers (area border routers)
@@ -167,7 +167,7 @@ However, it is worth noting that there are rather significant dissimilarities as
         * Level 1 routers form adjacencies with only other level 1 routers or L1/L2 routers (area border routers) 
 * IS-IS actually detects the name of the adjacent router on the 'application level' whereas OSPF picks up only IP.
 
-In my subjective opinion the hassle with the ISO addressing is compensated by the less chatty nature of IS-IS compared to OSPF. IS-IS feels also simpler to configure and there is no not-so-stub-areas etc. 
+In my subjective opinion the hassle with the ISO addressing is compensated by the less chatty nature of IS-IS compared to OSPF. IS-IS feels also simpler to configure and there is no not-so-stub-area etc. 
 IS-IS can also carry more than one address family in the same adjacency. For example, this means that it is possible to have both IPv4 and IPv6 handled by the same adjacency and you do not need separate processes of OSPFv2 and OSPFv3.
 However, in the case of Juniper IS-IS requires more costly license. Yet, the same expensive license is required for BGP and EVPN so it is bit of a moot point. 
  

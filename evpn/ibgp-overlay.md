@@ -65,7 +65,7 @@ The iBGP config on the spine device could look like this:
         cluster 10.1.1.0;
         local-as 65001;
         allow 10.1.10.0/24;
-}
+    }
 
 The above construct creates a template for neighbors that are treated similarly:
 
