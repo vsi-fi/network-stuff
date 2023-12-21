@@ -209,3 +209,114 @@ To put all of the above to other words: ge-0/0/9 is one end of a pipe that blind
 
 Loopback lo0.100 was used to initially test the L3vpn. 
 
+Next we have the protocols section:
+
+```
+root@ISP-PE-1> show configuration protocols 
+router-advertisement {
+    interface fxp0.0;
+}
+bgp {
+    group IBGP {
+        type internal;
+        family inet {
+            unicast;
+        }
+        family inet-vpn {
+            unicast;
+        }
+        family l2vpn {
+            signaling;
+        }
+        local-as 650000;
+        neighbor 10.0.0.4;
+    }
+}
+isis {
+    interface ge-0/0/0.0 {
+        point-to-point;
+    }
+    interface lo0.0 {                   
+        passive;
+    }
+}
+ldp {
+    interface ge-0/0/0.0;
+}
+mpls {
+    interface ge-0/0/0.0;
+}
+lldp {
+    interface all;
+}
+
+root@ISP-PE-1> 
+```
+
+Here I am telling the PE to talk BGP to our route-reflector 10.0.0.4 and we've also defined the required address-families.
+Similarly to P routers, isis, ldp and mpls are configured on the core facing interfaces.
+
+Next, we have the routing instances and few policies and policy components:
+
+```
+root@ISP-PE-1> show configuration routing-instances 
+DC-CLIENT-100 {
+    instance-type vrf;
+    interface lo0.100;
+    route-distinguisher 10.1.0.1:100;
+    vrf-import VRF-IMPORT-DC-CLIENT-100;
+    vrf-export VRF-EXPORT-DC-CLIENT-100;
+}
+DC-CLIENT-100-L2-A {
+    instance-type l2vpn;
+    protocols {
+        l2vpn {
+            site CE-1 {
+                interface ge-0/0/9.0 {
+                    remote-site-id 2;
+                }
+                site-identifier 1;
+            }
+            encapsulation-type ethernet;
+        }
+    }
+    interface ge-0/0/9.0;
+    route-distinguisher 10.1.0.1:1002;
+    vrf-import VRF-IMPORT-DC-CLIENT-100-L2-A;
+    vrf-export VRF-EXPORT-DC-CLIENT-100-L2-A;
+}
+```
+
+Starting with the L3vpn DC-CLIENT-100, I've included only one interface, lo0.100 for now but customer facing L3 interfaces would need to be similarly included in the routing-instance.
+I set the route-distinguisher(RD) to match to the ipv4 address on the loopback and imagined a customer-id of 100 to complete the RD.
+
+RD is used to keep the possibly overlapping prefixes separate inside the SP network. Same concept is also used in EVPN control plane for the exact same purpose.
+Next, I've opted to use specific vrf import/export policies:
+
+```
+show configuration policy-options policy-statement VRF-IMPORT-DC-CLIENT-100       
+term DC-CLIENT-100 {
+    from community DC-CLIENT-100;
+    then accept;
+}
+term DEFAULT {
+    then reject;
+}
+
+show configuration policy-options policy-statement VRF-EXPORT-DC-CLIENT-100    
+term DC-CLIENT-100 {
+    then {
+        community add DC-CLIENT-100;
+        accept;
+    }
+}
+
+show configuration policy-options community DC-CLIENT-100   
+members target:650000L:100;
+
+root@ISP-PE-1> 
+ 
+```
+What these policies do is that they cause the VRF to import all routes that match on a route-target(RT) target:650000L:100 (the L is required for long AS numbers).
+Export policy slaps the said extended community to all routes exported to BGP so that other PE routers with the same VRF can import the said routes.
+
