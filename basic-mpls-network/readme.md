@@ -1,10 +1,10 @@
 # Trivial MPLS network #
 
-Idea with this lab is to build a simple MPLS network in order to test different EVPN data centre interconnection options across a service provider -type network.
+Idea with this lab is to build a simple MPLS network in order to test different EVPN data center interconnection options across a service provider -type network.
 
 In order to keep things simple I opted for the below implementation specs for the SP network:
 
-* Unnumered IS-IS as IGP
+* Unnumbered IS-IS as IGP
 * IBGP with route-reflector on one of the P routers
 * LDP instead of RSVP for initial setup
 * L2vpn interconnection between sites
@@ -432,7 +432,7 @@ round-trip min/avg/max/stddev = 3.951/3.951/3.951/0.000 ms
 
 Seems to work as expected.
 
-It might be worth mentioning that the since the said VRF is only configured on the PEs 1 and 2, the rest of the routers are completely oblivious to the said routes, with the exception of the route-reflector ofcourse.
+It might be worth mentioning that the since the said VRF is only configured on the PEs 1 and 2, the rest of the routers are completely oblivious to the said routes, with the exception of the route-reflector of course.
 
 To verify the L2vpn we can also look at the routing table:
 
