@@ -258,6 +258,8 @@ Similarly to P routers, isis, ldp and mpls are configured on the core facing int
 
 Next, we have the routing instances and few policies and policy components:
 
+#### Routing-instances: L3vpn ####
+
 ```
 root@ISP-PE-1> show configuration routing-instances 
 DC-CLIENT-100 {
@@ -322,7 +324,7 @@ Export policy slaps the said extended community to all routes exported to BGP so
 
 That sums it up for the L3vpn for now.
 
-As for the L2vpn:
+#### Routing-instances: L2vpn ####
 
 ```
 root@ISP-PE-1> show configuration routing-instances DC-CLIENT-100-L2-A    
@@ -372,4 +374,100 @@ policy-statement VRF-IMPORT-DC-CLIENT-100-L2-A {
 ...
 community DC-CLIENT-100-L2-A members target:650000L:1002;
 ```
+
+### Verification ###
+
+To test the L3vpn I can try to check the routes and ping the loopbacks of the lo0.100 interfaces amongst the L3vpn instances:
+
+```
+root@ISP-PE-2> show configuration interfaces lo0.100 
+family inet {
+    address 192.168.255.2/32;
+}
+
+root@ISP-PE-2> 
+
+root@ISP-PE-2> show route table DC-CLIENT-100 192.168.255.1 
+
+DC-CLIENT-100.inet.0: 2 destinations, 2 routes (2 active, 0 holddown, 0 hidden)
++ = Active Route, - = Last Active, * = Both
+
+192.168.255.1/32   *[BGP/170] 01:01:18, localpref 100, from 10.0.0.4
+                      AS path: I, validation-state: unverified
+                    >  to 10.0.0.2 via ge-0/0/0.0, Push 339408, Push 349136(top)
+
+root@ISP-PE-2> 
+
+root@ISP-PE-2> show route table DC-CLIENT-100 192.168.255.1 detail | grep "label|next op|Distin|Source"
+                Route Distinguisher: 10.1.0.1:100
+                Source: 10.0.0.4
+                Label operation: Push 339408, Push 349136(top)
+                Label TTL action: prop-ttl, prop-ttl(top)
+                Load balance label: Label 339408: None; Label 349136: None; 
+                Label element ptr: 0x7bf5970
+                Label parent element ptr: 0x7bf52e0
+                Label element references: 1
+                Label element child references: 0
+                Label element lsp id: 0
+                Label operation: Push 339408
+                Label TTL action: prop-ttl
+                Load balance label: Label 339408: None; 
+                VPN Label: 339408
+```
+So it would seem that We've learned the route to the other loopback on the same L3vpn, ping should maybe work:
+
+```
+root@ISP-PE-2> ping 192.168.255.1 source 192.168.255.2 routing-instance DC-CLIENT-100 count 1
+PING 192.168.255.1 (192.168.255.1): 56 data bytes
+64 bytes from 192.168.255.1: icmp_seq=0 ttl=64 time=3.951 ms
+
+--- 192.168.255.1 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max/stddev = 3.951/3.951/3.951/0.000 ms
+
+```
+
+Seems to work as expected.
+
+It might be worth mentioning that the since the said VRF is only configured on the PEs 1 and 2, the rest of the routers are completely oblivious to the said routes, with the exception of the route-reflector ofcourse.
+
+To verify the L2vpn we can also look at the routing table:
+
+```
+root@ISP-PE-1> show route ccc ge-0/0/9.0 detail 
+
+mpls.0: 17 destinations, 17 routes (17 active, 0 holddown, 0 hidden)
+ge-0/0/9.0 (1 entry, 1 announced)
+        *L2VPN  Preference: 7
+                Next hop type: Indirect, Next hop index: 0
+                Address: 0x7aaee6c
+                Next-hop reference count: 2
+                Next hop type: Router, Next hop index: 612
+                Next hop: 10.0.0.1 via ge-0/0/0.0, selected
+                Label operation: Push 800000, Push 363216(top) Offset: 252
+                Label TTL action: no-prop-ttl, no-prop-ttl(top)
+                Load balance label: Label 800000: None; Label 363216: None; 
+                Label element ptr: 0x7bf58f8
+                Label parent element ptr: 0x7bf5538
+                Label element references: 1
+                Label element child references: 0
+                Label element lsp id: 0
+                Session Id: 141
+                Protocol next hop: 10.1.0.2
+                Label operation: Push 800000 Offset: 252
+                Label TTL action: no-prop-ttl
+                Load balance label: Label 800000: None; 
+                Indirect next hop: 0x712995c 1048575 INH Session ID: 330
+                State: <Active Int>     
+                Age: 1:11:01    Metric2: 1 
+                Validation State: unverified 
+                Task: Common L2 VC
+                Announcement bits (2): 1-KRT 2-Common L2 VC 
+                AS path: I 
+                Communities: target:650000L:1002 Layer2-info: encaps: ETHERNET, control flags:[0x2] Control-Word, mtu: 0, site preference: 100
+                Thread: junos-main 
+```
+
+From the above we can see for instance the protocol next-hop of 10.1.0.2 that is the loopback of the ISP-PE-2. This is reachable via next hop 10.0.0.1.
+
 
