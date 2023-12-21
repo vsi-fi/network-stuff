@@ -16,6 +16,9 @@ In order to keep things simple I opted for the below implementation specs for th
 I used the below "equipment":
 
 * vmx 21.4R1.12 for all SP gear
+* Two alpine linux hosts to test the L2 vpn
+
+![Topology diagram](./topology.jpg "Lab topology")
 
 ## Configuration ##
 
