@@ -320,3 +320,56 @@ root@ISP-PE-1>
 What these policies do is that they cause the VRF to import all routes that match on a route-target(RT) target:650000L:100 (the L is required for long AS numbers).
 Export policy slaps the said extended community to all routes exported to BGP so that other PE routers with the same VRF can import the said routes.
 
+That sums it up for the L3vpn for now.
+
+As for the L2vpn:
+
+```
+root@ISP-PE-1> show configuration routing-instances DC-CLIENT-100-L2-A    
+instance-type l2vpn;
+protocols {
+    l2vpn {
+        site CE-1 {
+            interface ge-0/0/9.0 {
+                remote-site-id 2;
+            }
+            site-identifier 1;
+        }
+        encapsulation-type ethernet;
+    }
+}
+interface ge-0/0/9.0;
+route-distinguisher 10.1.0.1:1002;
+vrf-import VRF-IMPORT-DC-CLIENT-100-L2-A;
+vrf-export VRF-EXPORT-DC-CLIENT-100-L2-A;
+
+root@ISP-PE-1> 
+```
+The only real differences here to the L3vpn are the instance-type l2vpn and the protocols section.
+We need to define the "sites" for our site-to-site pipe and the interface of whose other end is on the other "site" and the encapsulation.
+ISP-PE-1 is on "site" CE-1 and ISP-PE-2 is on "site" CE-2, both have their ge-0/0/9 facing the customer.
+
+Policy elements are basically identical to the L3vpn except we have a different RT:
+```
+root@ISP-PE-1> show configuration policy-options                    
+...
+policy-statement VRF-EXPORT-DC-CLIENT-100-L2-A {
+    then {
+        community add DC-CLIENT-100-L2-A;
+        accept;
+    }
+}
+...
+policy-statement VRF-IMPORT-DC-CLIENT-100-L2-A {
+    term DC-CLIENT-100-L2-A {
+        from community DC-CLIENT-100-L2-A;
+        then accept;
+    }
+    term DEFAULT {
+        then reject;
+    }
+}
+...
+community DC-CLIENT-100-L2-A members target:650000L:1002;
+```
+
