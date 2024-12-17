@@ -1,0 +1,7 @@
+ln -s /etc/sv/sshd /var/service
+xbps-install -S void-repo-nonfree void-repo-multilib void-repo-multilib-nonfree 
+xlocate -S
+xbps-install -S libgcc-32bit libstdc++-32bit libdrm-32bit libglvnd-32bit
+xbps-install pass xtools encfs tmux flatpak xorg sddm dwm firefox bind-utils gtk+ st pulseaudio elogind zfs dmenu xz glu steam openvpn pavucontrol alacritty river vim swaybg Waybar fuzzel
+ln -s /etc/sv/dbus /var/service
+ln -s /etc/sv/sddm /var/service
