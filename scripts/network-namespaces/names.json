@@ -1,0 +1,56 @@
+{
+	"vlans": {
+		"bond0.114": {
+			"vlan": "114",
+			"mtu": "9000",
+			"parent": "bond0"
+		},
+		"bond1.114": {
+			"vlan": "114",
+			"mtu": "9000",
+			"parent": "bond1"
+		}
+	},
+	"bonds": {
+		"bond0": {
+			"config": "802.3ad xmit_hash_policy 1",
+			"members": [
+				"eth0",
+				"eth2"
+			],
+			"mtu": "9000"
+		},
+		"bond1": {
+			"config": "802.3ad xmit_hash_policy 1",
+			"members": [
+				"eth3",
+				"eth4"
+			],
+			"mtu": "9000"
+		}
+
+	},
+	"namespaces":
+	{
+		"default": {
+			"interfaces": {
+				"bond0.114": {
+					"ifcfg": "10.193.186.232 netmask 255.255.255.0"
+				}
+			}
+		},
+		"secondary": {
+			"interfaces": { 
+				"bond1.114": {
+					"ifcfg": "10.193.186.233 netmask 255.255.255.0"
+				},
+				"eth1": {
+					"ifcfg": "10.193.30.38 netmask 255.255.255.0"
+				}
+			},
+			"routes": {
+				"default": "10.193.30.1"
+			}
+		}
+	}
+}
