@@ -290,6 +290,56 @@ It is trivial to create a firewall filter to limit the access to tcp/179 but thi
 
 Having authentication would be handy as its possible to preprovision this without much of a hassle but either I haven't figured out how this works in this case or it is not possible at the moment.
 
+### Little bit of thematic garnish about authentication / 2025-09-23 ###
 
+As it happens, least on Nokia 7250 IXR-X3B running SRLinux 25.7.1 it seems to be possible to configure authentication for the auto-discovery:
 
+```
+A:user@device# info system authentication keychain LAB
+    admin-state enable
+    type tcp-md5
+    key 1 {
+        algorithm md5
+        authentication-key $aes1$AWBG0iYM3iBYtG8=$66dQvrhaL9XNAY3hTrV0dg==
+    }
+
+--{ candidate shared default }--[  ]--
+
+A:user@device# info network-instance default protocols bgp
+    admin-state enable
+    autonomous-system 64512
+    router-id 10.10.10.0
+    dynamic-neighbors {
+        interface lag1.20 {
+            peer-group OVERLAY
+            allowed-peer-as [
+                64512..64520
+            ]
+        }
+    }
+    afi-safi evpn {
+        admin-state enable
+    }
+    group OVERLAY {
+        admin-state enable
+        export-policy [
+            BGP_ALL_THE_THINGS
+        ]
+        import-policy [
+            BGP_ALL_THE_THINGS
+        ]
+        authentication {
+            keychain LAB
+        }
+        afi-safi evpn {
+            admin-state enable
+        }
+        afi-safi ipv4-unicast {
+            admin-state enable
+        }
+    }
+
+--{ candidate shared default }--[  ]--
+```
+This works reasonably well when combined with the allowed-peer-as -list. I just wish there was a way to pass some sort of 'interface-list' object to group the functionally identical interfaces in the bgp config, as this could simplify the maintenance activities a bit.
 
