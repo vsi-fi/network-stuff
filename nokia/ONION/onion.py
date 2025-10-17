@@ -56,7 +56,7 @@ for element,data in config.items():
             if vrf['type'] == "ip-vrf":
                 print("set / network-instance "+vrf['name']+" protocols bgp autonomous-system "+str(vrf['autonomous-system']))
                 print("set / network-instance "+vrf['name']+" protocols bgp admin-state enable")
-                print("set / network-instance "+vrf['name']+" protocols bgp afi-safi ipv4-unicast admin-state enable")
+                print("set / network-instance "+vrf['name']+" protocols bgp afi-safi ipv4-unicast admin-state enable multipath maximum-paths 8")
                 print("set / network-instance "+vrf['name']+" protocols bgp router-id "+vrf['router_id'])
                 print("set / network-instance "+vrf['name']+" type "+vrf['type'])
                 for interface in vrf['interfaces']:
