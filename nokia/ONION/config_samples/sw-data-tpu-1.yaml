@@ -46,6 +46,9 @@ interfaces:
       - unit: 123 
         vlan: 123
         type: bridged 
+      - unit: 250
+        vlan: native 
+        type: bridged
   - name: irb123
     admin-state: enable
     subinterfaces:
@@ -53,6 +56,15 @@ interfaces:
         ipv4:
           admin-state: enable
           address: 192.168.192.1/24
+          dhcp_relay: "[ 192.168.50.1 192.168.60.1 ]"
+  - name: irb250
+    admin-state: enable
+    subinterfaces:
+      - unit: 0
+        ipv4:
+          admin-state: enable
+          address: 192.168.250.1/24
+
 routing_policies:
   - name: ipv4-export
     terms:
@@ -73,6 +85,11 @@ vrfs:
     interfaces:
       - ethernet-1/10.123
       - irb123.0
+  - name: sw_data-250
+    type: mac-vrf
+    interfaces:
+      - ethernet-1/10.250
+      - irb250.0
   - name: data
     type: ip-vrf
     loopback: system0.100
@@ -80,6 +97,7 @@ vrfs:
     autonomous-system: 4200100000 
     interfaces:
       - irb123.0
+      - irb250.0
       - lo0.100
       - ethernet-1/1.100
       - ethernet-1/2.100

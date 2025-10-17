@@ -26,8 +26,10 @@ for element,data in config.items():
                             if unit['ipv6']['router_advertisement'] == True:
                                 print("set / interface "+interface['name']+" subinterface "+str(unit['unit'])+ " ipv6 admin-state "+str(unit['ipv6']['admin-state']))
                                 print("set / interface "+interface['name']+" subinterface "+str(unit['unit'])+ " ipv6 router-advertisement router-role admin-state enable")
-                        if 'vlan' in unit:
+                        if 'vlan' in unit and unit and unit['vlan'] != "native":
                             print("set / interface "+interface['name']+" subinterface "+str(unit['unit'])+ " vlan encap single-tagged vlan-id "+str(unit['vlan']))
+                        if 'vlan' in unit and unit['vlan'] == "native":
+                            print("set / interface "+interface['name']+" subinterface "+str(unit['unit'])+ " vlan encap untagged")
                         if 'type' in unit and unit['type'] == 'bridged':
                             print("set / interface "+interface['name']+" subinterface "+str(unit['unit'])+ " type " + unit['type']) 
                         if 'ipv4' in unit or 'type' in unit and unit['type'] != 'bridged':
@@ -36,6 +38,8 @@ for element,data in config.items():
                                 print("set / interface "+interface['name']+" subinterface "+str(unit['unit'])+" ipv4 address " + unit['ipv4']['address'])
                             if "unnumbered" in unit['ipv4']:
                                 print("set / interface "+interface['name']+" subinterface "+str(unit['unit'])+" ipv4 unnumbered interface " + unit['ipv4']['unnumbered'] + " admin-state enable")
+                            if "dhcp_relay" in unit['ipv4']:
+                                print("set / interface "+interface['name']+" subinterface "+str(unit['unit'])+" ipv4 dhcp-relay server " + unit['ipv4']['dhcp_relay'])
 
                 if type(value) != dict and attribute != "subinterfaces" and attribute != "mtu":
                     print("set / interface "+interface['name']+" "+attribute+" "+str(value))
