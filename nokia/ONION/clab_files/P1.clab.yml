@@ -1,0 +1,96 @@
+# topology documentation: http://containerlab.dev/lab-examples/srl-ceos/
+name: P1 
+
+topology:
+  nodes:
+    sdx-core-1:
+      kind: nokia_srlinux
+      image: ghcr.io/nokia/srlinux:24.10
+    sdx-core-2:
+      kind: nokia_srlinux
+      image: ghcr.io/nokia/srlinux:24.10
+    usa15-core-1-1:
+      kind: nokia_srlinux
+      image: ghcr.io/nokia/srlinux:24.10
+    usa15-core-1-2:
+      kind: nokia_srlinux
+      image: ghcr.io/nokia/srlinux:24.10
+    container-core-1-1:
+      kind: nokia_srlinux
+      image: ghcr.io/nokia/srlinux:24.10
+    container-core-1-2:
+      kind: nokia_srlinux
+      image: ghcr.io/nokia/srlinux:24.10
+    #Access devices, dual-homed to relevant aggregation
+    sw-data-tpu-1:
+      kind: nokia_srlinux
+      image: ghcr.io/nokia/srlinux:24.10
+    sw-data-tpu-2:
+      kind: nokia_srlinux
+      image: ghcr.io/nokia/srlinux:24.10
+    sw-data-container-1:
+      kind: nokia_srlinux
+      image: ghcr.io/nokia/srlinux:24.10
+    sw-data-usa15-1-1:
+      kind: nokia_srlinux
+      image: ghcr.io/nokia/srlinux:24.10
+    sw-data-usa15-1-2:
+      kind: nokia_srlinux
+      image: ghcr.io/nokia/srlinux:24.10
+    #Upstream routers, these should receive the aggregate routes from sw-core-sdx
+    upstream-it-rtr-1:
+      kind: nokia_srlinux
+      image: ghcr.io/nokia/srlinux:24.10
+    upstream-it-rtr-2:
+      kind: nokia_srlinux
+      image: ghcr.io/nokia/srlinux:24.10
+    #some hosts
+    tpu-1-1:
+      kind: linux
+      image: alpine:latest
+    tpu-2-1:
+      kind: linux
+      image: alpine:latest
+    host-usa15-1:
+      kind: linux
+      image: alpine:latest
+    host-container-1:
+      kind: linux
+      image: alpine:latest
+    dhcp-1:
+      kind: linux
+      image: alpine:latest
+
+  links:
+    #core links
+    - endpoints: ["sdx-core-1:ethernet-1/10", "sdx-core-2:ethernet-1/10"]
+    - endpoints: ["sdx-core-1:ethernet-1/11", "usa15-core-1-1:ethernet-1/11"]
+    - endpoints: ["sdx-core-2:ethernet-1/11", "usa15-core-1-1:ethernet-1/12"]
+    - endpoints: ["sdx-core-1:ethernet-1/12", "usa15-core-1-2:ethernet-1/11"]
+    - endpoints: ["sdx-core-2:ethernet-1/12", "usa15-core-1-2:ethernet-1/12"]
+    - endpoints: ["sdx-core-1:ethernet-1/15", "container-core-1-1:ethernet-1/11"]
+    - endpoints: ["sdx-core-2:ethernet-1/15", "container-core-1-2:ethernet-1/12"]
+    - endpoints: ["sdx-core-1:ethernet-1/16", "upstream-it-rtr-1:ethernet-1/1"]
+    - endpoints: ["sdx-core-2:ethernet-1/16", "upstream-it-rtr-1:ethernet-1/2"]
+
+
+    #aggregation links
+    - endpoints: ["sdx-core-1:ethernet-1/1", "sw-data-tpu-1:ethernet-1/1"]
+    - endpoints: ["sdx-core-2:ethernet-1/1", "sw-data-tpu-1:ethernet-1/2"]
+    - endpoints: ["sdx-core-1:ethernet-1/2", "sw-data-tpu-2:ethernet-1/1"]
+    - endpoints: ["sdx-core-2:ethernet-1/2", "sw-data-tpu-2:ethernet-1/2"]
+    - endpoints: ["container-core-1-1:ethernet-1/1", "sw-data-container-1:ethernet-1/1"]
+    - endpoints: ["container-core-1-2:ethernet-1/1", "sw-data-container-1:ethernet-1/2"]
+    - endpoints: ["usa15-core-1-1:ethernet-1/1", "sw-data-usa15-1-1:ethernet-1/1"]
+    - endpoints: ["usa15-core-1-2:ethernet-1/1", "sw-data-usa15-1-1:ethernet-1/2"]
+    - endpoints: ["usa15-core-1-1:ethernet-1/2", "sw-data-usa15-1-2:ethernet-1/1"]
+    - endpoints: ["usa15-core-1-2:ethernet-1/2", "sw-data-usa15-1-2:ethernet-1/2"]
+
+    #access links
+    - endpoints: ["sw-data-tpu-1:ethernet-1/10", "tpu-1-1:eth1"]
+    - endpoints: ["sw-data-tpu-2:ethernet-1/10", "tpu-2-1:eth1"]
+    - endpoints: ["sw-data-usa15-1-1:ethernet-1/10", "host-usa15-1:eth1"]
+    - endpoints: ["sw-data-usa15-1-2:ethernet-1/10", "host-usa15-1:eth2"]
+    - endpoints: ["sw-data-container-1:ethernet-1/10", "host-container-1:eth1"]
+    - endpoints: ["sdx-core-1:ethernet-1/17", "dhcp-1:eth1"]
+    - endpoints: ["sdx-core-2:ethernet-1/17", "dhcp-1:eth2"]

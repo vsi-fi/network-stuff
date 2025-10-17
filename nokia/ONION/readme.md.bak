@@ -1,0 +1,164 @@
+# ONION - Orchestrated Network Infrastructure Operations Namespace #
+This script can be used to generate Nokia SRLinux config out of YAML files for copy-pasting or loading
+ONION might also stand for "Overengineered Networking Infrastructure Obstinately Nonstandard" as there are well-known alternatives to this which we cannot use in our environment.
+
+## Concept ##
+Script takes a config file as a parameter and spits out the set -commands
+Config files should look something like this:
+```
+cat sw-data-tpu-1.yaml | yq
+network_name: P1
+debug: true
+device_name: sw-data-tpu-1
+unnumbered_routing: true
+interfaces:
+  - name: lo0
+    admin-state: enable
+    subinterfaces:
+      - unit: 100
+        ipv4:
+          admin-state: enable
+          address: 10.1.100.1/32
+  - name: ethernet-1/1
+    admin-state: enable
+    mtu: 9412
+    vlan-tagging: "true"
+    subinterfaces:
+      - unit: 100
+        vlan: 100
+        ipv4:
+          admin-state: enable
+          unnumbered: lo0.100
+        ipv6:
+          admin-state: enable
+          router_advertisement: true
+  - name: ethernet-1/2
+    admin-state: enable
+    mtu: 9412
+    vlan-tagging: "true"
+    subinterfaces:
+      - unit: 100
+        vlan: 100
+        ipv4:
+          admin-state: enable
+          unnumbered: lo0.100
+        ipv6:
+          admin-state: enable
+          router_advertisement: true
+  - name: ethernet-1/10
+    admin-state: enable
+    mtu: 9412
+    vlan-tagging: "true"
+    subinterfaces:
+      - unit: 123
+        vlan: 123
+        ipv4:
+          admin-state: enable
+          address: 192.168.123.1/24
+        ipv6:
+          admin-state: disable
+          router_advertisement: false
+routing_policies:
+  - name: ipv4-export
+    terms:
+      - term: 100
+        action: accept
+        match:
+          - protocol: local
+  - name: ipv4-import
+    terms:
+      - term: 100
+        action: accept
+        match:
+          - protocol: bgp
+vrfs:
+  - name: data
+    type: ip-vrf
+    loopback: system0.100
+    router_id: 10.100.1.1
+    autonomous-system: 4200100000
+    interfaces:
+      - lo0.100
+      - ethernet-1/1.100
+      - ethernet-1/2.100
+      - ethernet-1/10.123
+    bgp:
+      groups:
+        - name: P1_DATA
+          admin_state: enable
+          export-policy: "[ ipv4-export ]"
+          import-policy: "[ ipv4-import ]"
+          afi:
+            - ipv4-unicast
+      dynamic-neigbors:
+        groups:
+          - name: P1_DATA
+            allowed_as: "[ 4200000000 ]"
+            group: P1_DATA
+            enable_bfd: "true"
+            interfaces:
+              - ethernet-1/1.100
+              - ethernet-1/2.100
+```
+Usage of the thing itself is straight forward. Script takes the yaml file as a parameter and produces the set -commands for copy-pasting
+```
+./onion.py --file sw-data-tpu-1.yaml 
+set / interface lo0 admin-state enable
+set / interface lo0 subinterface 100 admin-state enable
+set / interface lo0 subinterface 100 ipv4 admin-state enable
+set / interface lo0 subinterface 100 ipv4 address 10.1.100.1/32
+set / interface ethernet-1/1 admin-state enable
+set / interface ethernet-1/1 vlan-tagging true
+set / interface ethernet-1/1 subinterface 100 admin-state enable
+set / interface ethernet-1/1 subinterface 100 ipv6 admin-state enable
+set / interface ethernet-1/1 subinterface 100 ipv6 router-advertisement router-role admin-state enable
+set / interface ethernet-1/1 subinterface 100 vlan encap single-tagged vlan-id 100
+set / interface ethernet-1/1 subinterface 100 ipv4 admin-state enable
+set / interface ethernet-1/1 subinterface 100 ipv4 unnumbered interface lo0.100 admin-state enable
+set / interface ethernet-1/2 admin-state enable
+set / interface ethernet-1/2 vlan-tagging true
+set / interface ethernet-1/2 subinterface 100 admin-state enable
+set / interface ethernet-1/2 subinterface 100 ipv6 admin-state enable
+set / interface ethernet-1/2 subinterface 100 ipv6 router-advertisement router-role admin-state enable
+set / interface ethernet-1/2 subinterface 100 vlan encap single-tagged vlan-id 100
+set / interface ethernet-1/2 subinterface 100 ipv4 admin-state enable
+set / interface ethernet-1/2 subinterface 100 ipv4 unnumbered interface lo0.100 admin-state enable
+set / interface ethernet-1/10 admin-state enable
+set / interface ethernet-1/10 vlan-tagging true
+set / interface ethernet-1/10 subinterface 123 admin-state enable
+set / interface ethernet-1/10 subinterface 123 vlan encap single-tagged vlan-id 123
+set / interface ethernet-1/10 subinterface 123 ipv4 admin-state enable
+set / interface ethernet-1/10 subinterface 123 ipv4 address 192.168.123.1/24
+set / routing-policy policy ipv4-export statement 100 action policy-result accept
+set / routing-policy policy ipv4-export statement 100 match protocol local
+set / routing-policy policy ipv4-import statement 100 action policy-result accept
+set / routing-policy policy ipv4-import statement 100 match protocol bgp
+set / network-instance data protocols bgp autonomous-system 4200100000
+set / network-instance data protocols bgp admin-state enable
+set / network-instance data protocols bgp afi-safi ipv4-unicast admin-state enable
+set / network-instance data protocols bgp router-id 10.100.1.1
+set / network-instance data type ip-vrf
+set / network-instance data interface lo0.100
+set / network-instance data interface ethernet-1/1.100
+set / network-instance data interface ethernet-1/2.100
+set / network-instance data interface ethernet-1/10.123
+set / network-instance data protocols bgp group P1_DATA export-policy [ ipv4-export ]
+set / network-instance data protocols bgp group P1_DATA import-policy [ ipv4-import ]
+set / network-instance data protocols bgp group P1_DATA admin-state enable
+set / network-instance data protocols bgp group P1_DATA afi-safi ipv4-unicast admin-state enable
+set / network-instance data protocols bgp group P1_DATA failure-detection enable-bfd true
+set / network-instance data protocols bgp dynamic-neighbors interface ethernet-1/1.100 allowed-peer-as [ 4200000000 ] peer-group P1_DATA
+set / network-instance data protocols bgp dynamic-neighbors interface ethernet-1/2.100 allowed-peer-as [ 4200000000 ] peer-group P1_DATA
+```
+### Few words on using container lab ###
+You can try to run containerlab in pc-tbed-net-05. You need the clab file in some directory. This file defines the topology and devices.
+```
+cd $clab_dir
+sudo containerlab deploy
+```
+If you have the right group memberships the above should start the environent for you. You can ssh to the containers with admin/NokiaSRL1!
+To destrouy the lab, replace the 'deploy' above with 'destroy'
+All the usual docker commands, such as docker ps etc work with this.
+
+### Known issues and future developments ###
+We could add stuff like user accounts and ssh keys and then this tool could maybe be used to load up configuration for the P1 data network?

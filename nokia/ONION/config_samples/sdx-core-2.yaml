@@ -1,0 +1,212 @@
+network_name: P1
+debug: true
+device_name: sdx-core-2
+unnumbered_routing: true
+
+interfaces:
+  - name: lo0
+    admin-state: enable
+    subinterfaces:
+      - unit: 100
+        ipv4:
+          admin-state: enable
+          address: 10.1.1.2/32
+  - name: ethernet-1/1
+    admin-state: enable
+    mtu: 9412
+    vlan-tagging: "true"
+    subinterfaces:
+      - unit: 100
+        vlan: 100
+        ipv4:
+          admin-state: enable
+          unnumbered: lo0.100
+        ipv6:
+          admin-state: enable
+          router_advertisement: true 
+  - name: ethernet-1/2
+    admin-state: enable
+    mtu: 9412
+    vlan-tagging: "true"
+    subinterfaces:
+      - unit: 100
+        vlan: 100
+        ipv4:
+          admin-state: enable
+          unnumbered: lo0.100
+        ipv6:
+          admin-state: enable
+          router_advertisement: true 
+  - name: ethernet-1/10
+    admin-state: enable
+    mtu: 9412
+    vlan-tagging: "true"
+    subinterfaces:
+      - unit: 100
+        vlan: 100
+        ipv4:
+          admin-state: enable
+          unnumbered: lo0.100
+        ipv6:
+          admin-state: enable
+          router_advertisement: true 
+  - name: ethernet-1/11
+    admin-state: enable
+    mtu: 9412
+    vlan-tagging: "true"
+    subinterfaces:
+      - unit: 100
+        vlan: 100
+        ipv4:
+          admin-state: enable
+          unnumbered: lo0.100
+        ipv6:
+          admin-state: enable
+          router_advertisement: true 
+  - name: ethernet-1/12
+    admin-state: enable
+    mtu: 9412
+    vlan-tagging: "true"
+    subinterfaces:
+      - unit: 100
+        vlan: 100
+        ipv4:
+          admin-state: enable
+          unnumbered: lo0.100
+        ipv6:
+          admin-state: enable
+          router_advertisement: true 
+  - name: ethernet-1/13
+    admin-state: enable
+    mtu: 9412
+    vlan-tagging: "true"
+    subinterfaces:
+      - unit: 100
+        vlan: 100
+        ipv4:
+          admin-state: enable
+          unnumbered: lo0.100
+        ipv6:
+          admin-state: enable
+          router_advertisement: true 
+  - name: ethernet-1/14
+    admin-state: enable
+    mtu: 9412
+    vlan-tagging: "true"
+    subinterfaces:
+      - unit: 100
+        vlan: 100
+        ipv4:
+          admin-state: enable
+          unnumbered: lo0.100
+        ipv6:
+          admin-state: enable
+          router_advertisement: true 
+  - name: ethernet-1/15
+    admin-state: enable
+    mtu: 9412
+    vlan-tagging: "true"
+    subinterfaces:
+      - unit: 100
+        vlan: 100
+        ipv4:
+          admin-state: enable
+          unnumbered: lo0.100
+        ipv6:
+          admin-state: enable
+          router_advertisement: true 
+  - name: ethernet-1/16
+    admin-state: enable
+    mtu: 9412
+    vlan-tagging: "true"
+    subinterfaces:
+      - unit: 100
+        vlan: 100
+        ipv4:
+          admin-state: enable
+          unnumbered: lo0.100
+        ipv6:
+          admin-state: enable
+          router_advertisement: true 
+  - name: ethernet-1/17
+    admin-state: enable
+    mtu: 9412
+    vlan-tagging: "true"
+    subinterfaces:
+      - unit: 100
+        vlan: 100
+        ipv4:
+          admin-state: enable
+        ipv6:
+          admin-state: enable
+          router_advertisement: true 
+
+routing_policies:
+  - name: ipv4-export
+    terms:
+      - term: 100
+        action: accept
+        match:
+          - protocol: local
+  - name: ipv4-import
+    terms:
+      - term: 100
+        action: accept
+        match:
+          - protocol: bgp 
+
+vrfs:
+  - name: data
+    type: ip-vrf
+    loopback: lo0.100
+    router_id: 10.1.1.2
+    autonomous-system: 4200000000
+    interfaces:
+      - lo0.100
+      - ethernet-1/1.100
+      - ethernet-1/2.100
+      - ethernet-1/10.100
+      - ethernet-1/11.100
+      - ethernet-1/12.100
+      - ethernet-1/13.100
+      - ethernet-1/14.100
+      - ethernet-1/15.100
+      - ethernet-1/16.100
+      - ethernet-1/17.100
+    bgp:
+      groups:
+        - name: P1_DATA
+          admin_state: enable
+          export-policy: "[ ipv4-export ]"
+          import-policy: "[ ipv4-import ]"
+          afi:
+            - ipv4-unicast
+        - name: P1_CORE
+          admin_state: enable
+          export-policy: "[ ipv4-export ]"
+          import-policy: "[ ipv4-import ]"
+          afi:
+            - ipv4-unicast
+      dynamic-neigbors:
+        groups:
+          - name: P1_CORE
+            allowed_as: "[ 4200901000..4200901900  ]"
+            group: P1_CORE
+            enable_bfd: "true"
+            interfaces:
+              - ethernet-1/11.100
+              - ethernet-1/12.100
+          - name: P1_DATA
+            allowed_as: "[ 4200000000..4290000000  ]"
+            group: P1_DATA
+            enable_bfd: "true"
+            interfaces:
+              - ethernet-1/1.100
+              - ethernet-1/2.100
+              - ethernet-1/10.100
+              - ethernet-1/13.100
+              - ethernet-1/14.100
+              - ethernet-1/15.100
+              - ethernet-1/16.100
+              - ethernet-1/17.100
+
