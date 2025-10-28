@@ -82,7 +82,7 @@ func main() {
 
 	// Send packets
 	count := 0
-	status := 5000
+	status := *num_of_pkts / 10 
 	for count < *num_of_pkts {
 		if count%status == 0 {
 			log.Println("Sending packet number", count)
