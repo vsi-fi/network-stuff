@@ -1,8 +1,5 @@
 package main
-/* Send pfc pauses, vlans to be tested/looked into whilst avoiding having to congest a network
-Use in conjunction with tcpdump and tcprelay if having to deal with TAC
-<vsimola@hc.nrec>
-*/
+// Send pfc pauses, vlans to be tested/looked into
 import (
 	"encoding/binary"
 	"log"
@@ -12,12 +9,16 @@ import (
 	"github.com/google/gopacket/layers"
 	"github.com/google/gopacket/pcap"
 	"strconv"
+	"time"
 )
 
 func main() {
 	//ifaceName := "data0"
 	device := flag.String("device", "VLAN114", "Network interface that we'll try to use to send the pauses.")
 	prio_to_pause := flag.String("prio", "all", "Which priorities to pause [0-7], default to all")
+	num_of_pkts := flag.Int("num_of_pkts",1, "How many packets to send?")
+	interval := flag.Int("interval", 1, "Sleep in milliseconds between sending packets") 
+	ethertype_str := flag.String("ethertype", "0x8808", "Ethertype to use if trying to mess with the device")
 	flag.Parse()
 	// Open the network interface for packet injection
 	handle, err := pcap.OpenLive(*device, 65536, false, pcap.BlockForever)
@@ -31,11 +32,14 @@ func main() {
 	//https://en.wikipedia.org/wiki/Ethernet_flow_control
 	dstMAC := net.HardwareAddr{0x01, 0x80, 0xC2, 0x00, 0x00, 0x01} // PFC multicast MAC
 
+	ethertype, err := strconv.ParseUint((*ethertype_str)[2:], 16, 16)
+	//ethertype_to_use := layers.EthernetType(ethertype)
 	// Ethernet layer with EtherType for MAC Control
 	ether := &layers.Ethernet{
 		SrcMAC:	srcMAC,
 		DstMAC:	dstMAC,
-		EthernetType: layers.EthernetType(0x8808), // MAC Control, https://en.wikipedia.org/wiki/Ethernet_flow_control
+		//EthernetType: layers.EthernetType(0x8808), // MAC Control, https://en.wikipedia.org/wiki/Ethernet_flow_control
+		EthernetType: layers.EthernetType(ethertype), // MAC Control, https://en.wikipedia.org/wiki/Ethernet_flow_control
 	}
 
 	//PFC pause payload
@@ -65,17 +69,22 @@ func main() {
 	opts := gopacket.SerializeOptions{FixLengths: true}
 
 	err = gopacket.SerializeLayers(buffer, opts,
-		ether,
+		 ether,
 		gopacket.Payload(payload),
 	)
 	if err != nil {
 		log.Fatal("Serialization failed:", err)
 	}
 
-	// Send the packet
-	err = handle.WritePacketData(buffer.Bytes())
-	if err != nil {
-		log.Fatal("Send failed:", err)
+	// Send packets
+	count := 0
+	for count < *num_of_pkts {
+		err = handle.WritePacketData(buffer.Bytes())
+		if err != nil {
+			log.Fatal("Send failed:", err)
+		}
+		time.Sleep(time.Duration(*interval))
+		count++
 	}
 
 	log.Println("PFC pause frame sent successfully (no VLAN) using device ", *device, " with priority ", *prio_to_pause)
