@@ -17,8 +17,9 @@ func main() {
 	device := flag.String("device", "VLAN114", "Network interface that we'll try to use to send the pauses.")
 	prio_to_pause := flag.String("prio", "all", "Which priorities to pause [0-7], default to all")
 	num_of_pkts := flag.Int("num_of_pkts",1, "How many packets to send?")
-	interval := flag.Int("interval", 1, "Sleep in milliseconds between sending packets") 
+	interval := flag.Int("interval", 1000, "Sleep in milliseconds between sending packets") 
 	ethertype_str := flag.String("ethertype", "0x8808", "Ethertype to use if trying to mess with the device")
+	opcode_str := flag.String("opcode", "0x0101", "Opcode to use")
 	flag.Parse()
 	// Open the network interface for packet injection
 	handle, err := pcap.OpenLive(*device, 65536, false, pcap.BlockForever)
@@ -33,6 +34,8 @@ func main() {
 	dstMAC := net.HardwareAddr{0x01, 0x80, 0xC2, 0x00, 0x00, 0x01} // PFC multicast MAC
 
 	ethertype, err := strconv.ParseUint((*ethertype_str)[2:], 16, 16)
+	opcode_, err := strconv.ParseUint((*opcode_str)[2:], 16, 16)
+	opcode := uint16(opcode_)
 	//ethertype_to_use := layers.EthernetType(ethertype)
 	// Ethernet layer with EtherType for MAC Control
 	ether := &layers.Ethernet{
@@ -44,7 +47,8 @@ func main() {
 
 	//PFC pause payload
 	payload := make([]byte, 2+2+16) // opcode + enable vector + pause times
-	binary.BigEndian.PutUint16(payload[0:2], 0x0101) // PFC opcode 101 means 'you better back of or else
+	//binary.BigEndian.PutUint16(payload[0:2], 0x0101) // PFC opcode 101 means 'you better back of or else
+	binary.BigEndian.PutUint16(payload[0:2], opcode) // PFC opcode 101 means 'you better back of or else
 	payload[2] = 0xFF 
 
 	if *prio_to_pause == "all" {
