@@ -82,12 +82,16 @@ func main() {
 
 	// Send packets
 	count := 0
+	status := 5000
 	for count < *num_of_pkts {
+		if count%status == 0 {
+			log.Println("Sending packet number", count)
+		}
 		err = handle.WritePacketData(buffer.Bytes())
 		if err != nil {
 			log.Fatal("Send failed:", err)
 		}
-		time.Sleep(time.Duration(*interval))
+		time.Sleep(time.Duration(*interval) * time.Millisecond)
 		count++
 	}
 
