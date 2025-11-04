@@ -20,6 +20,7 @@ func main() {
 	interval := flag.Int("interval", 1000, "Sleep in milliseconds between sending packets") 
 	ethertype_str := flag.String("ethertype", "0x8808", "Ethertype to use if trying to mess with the device")
 	opcode_str := flag.String("opcode", "0x0101", "Opcode to use")
+	dst_mac_str := flag.String("dst_mac", "01:80:C2:00:00:01", "destination mac address to use")
 	flag.Parse()
 	// Open the network interface for packet injection
 	handle, err := pcap.OpenLive(*device, 65536, false, pcap.BlockForever)
@@ -32,6 +33,13 @@ func main() {
 	srcMAC := getMAC(*device)
 	//https://en.wikipedia.org/wiki/Ethernet_flow_control
 	dstMAC := net.HardwareAddr{0x01, 0x80, 0xC2, 0x00, 0x00, 0x01} // PFC multicast MAC
+	if *dst_mac_str != "" {
+		parsedMAC, err := net.ParseMAC(*dst_mac_str)
+		if err != nil {
+			log.Fatalf("Invalid MAC address %q: %v", *dst_mac_str, err)
+		}
+		dstMAC = parsedMAC
+	}
 
 	ethertype, err := strconv.ParseUint((*ethertype_str)[2:], 16, 16)
 	opcode_, err := strconv.ParseUint((*opcode_str)[2:], 16, 16)
