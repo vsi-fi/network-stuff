@@ -1,0 +1,97 @@
+name: DC
+
+topology:
+  nodes:
+    site1-core-1:
+      kind: nokia_srlinux
+      image: ghcr.io/nokia/srlinux:24.10
+    site1-core-2:
+      kind: nokia_srlinux
+      image: ghcr.io/nokia/srlinux:24.10
+    site3-core-1-1:
+      kind: nokia_srlinux
+      image: ghcr.io/nokia/srlinux:24.10
+    site3-core-1-2:
+      kind: nokia_srlinux
+      image: ghcr.io/nokia/srlinux:24.10
+    site2-core-1-1:
+      kind: nokia_srlinux
+      image: ghcr.io/nokia/srlinux:24.10
+    site2-core-1-2:
+      kind: nokia_srlinux
+      image: ghcr.io/nokia/srlinux:24.10
+    #Access devices, mh for multihoming
+    sw-data-tpu-1:
+      kind: nokia_srlinux
+      image: ghcr.io/nokia/srlinux:24.10
+    sw-data-mh-1-1:
+      kind: nokia_srlinux
+      image: ghcr.io/nokia/srlinux:24.10
+    sw-data-mh-1-2:
+      kind: nokia_srlinux
+      image: ghcr.io/nokia/srlinux:24.10
+    sw-data-site2-1:
+      kind: nokia_srlinux
+      image: ghcr.io/nokia/srlinux:24.10
+    sw-data-site3-1-1:
+      kind: nokia_srlinux
+      image: ghcr.io/nokia/srlinux:24.10
+    #Outside routers, these should receive the aggregate routes from the site1 cores
+    outside-it-rtr-1:
+      kind: nokia_srlinux
+      image: ghcr.io/nokia/srlinux:24.10
+    outside-it-rtr-2:
+      kind: nokia_srlinux
+      image: ghcr.io/nokia/srlinux:24.10
+    #Hosts
+    site1-tpu-1-1:
+      kind: linux
+      image: labalpine
+    site1-mh-host-1:
+      kind: linux
+      image: labalpine
+    site3-host-1:
+      kind: linux
+      image: labalpine
+    site2-host-1:
+      kind: linux
+      image: labalpine
+    dhcp-1:
+      kind: linux
+      image: labalpine
+
+  links:
+    #core links
+    - endpoints: ["site1-core-1:e1-10", "site1-core-2:e1-10"]
+    - endpoints: ["site2-core-1-1:e1-10","site2-core-1-2:e1-10"]
+    - endpoints: ["site3-core-1-1:e1-10", "site3-core-1-2:e1-10"]
+    - endpoints: ["site1-core-1:e1-11", "site3-core-1-1:e1-11"]
+    - endpoints: ["site1-core-2:e1-11", "site3-core-1-2:e1-11"]
+    - endpoints: ["site1-core-1:e1-12", "site2-core-1-1:e1-11"]
+    - endpoints: ["site1-core-2:e1-12", "site2-core-1-2:e1-11"]
+    - endpoints: ["site1-core-1:e1-16", "outside-it-rtr-1:e1-1"]
+    - endpoints: ["site1-core-2:e1-16", "outside-it-rtr-1:e1-2"]
+
+
+    #aggregation links
+    - endpoints: ["site1-core-1:e1-1", "sw-data-tpu-1:e1-1"]
+    - endpoints: ["site1-core-2:e1-1", "sw-data-tpu-1:e1-2"]
+
+    - endpoints: ["site1-core-1:e1-2", "sw-data-mh-1-1:e1-1"]
+    - endpoints: ["site1-core-2:e1-2", "sw-data-mh-1-1:e1-2"]
+    - endpoints: ["site1-core-1:e1-3", "sw-data-mh-1-2:e1-1"]
+    - endpoints: ["site1-core-2:e1-3", "sw-data-mh-1-2:e1-2"]
+
+    - endpoints: ["site2-core-1-1:e1-1", "sw-data-site2-1:e1-1"]
+    - endpoints: ["site2-core-1-2:e1-1", "sw-data-site2-1:e1-2"]
+    - endpoints: ["site3-core-1-1:e1-1", "sw-data-site3-1-1:e1-1"]
+    - endpoints: ["site3-core-1-2:e1-1", "sw-data-site3-1-1:e1-2"]
+
+    #access links
+    - endpoints: ["sw-data-tpu-1:e1-10", "site1-tpu-1-1:eth1"]
+    - endpoints: ["sw-data-mh-1-1:e1-10", "site1-mh-host-1:eth1"]
+    - endpoints: ["sw-data-mh-1-2:e1-10", "site1-mh-host-1:eth2"]
+    - endpoints: ["sw-data-site3-1-1:e1-10", "site3-host-1:eth1"]
+    - endpoints: ["sw-data-site2-1:e1-10", "site2-host-1:eth1"]
+    - endpoints: ["site1-core-1:e1-17", "dhcp-1:eth1"]
+    - endpoints: ["site1-core-2:e1-17", "dhcp-1:eth2"]

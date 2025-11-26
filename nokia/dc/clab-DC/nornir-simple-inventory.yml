@@ -1,0 +1,91 @@
+---
+dhcp-1:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.20.20.5
+site1-mh-host-1:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.20.20.4
+site1-tpu-1-1:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.20.20.7
+site2-host-1:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.20.20.2
+site3-host-1:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.20.20.6
+outside-it-rtr-1:
+    username: admin
+    password: NokiaSrl1!
+    platform: nokia_srlinux
+    hostname: 172.20.20.13
+outside-it-rtr-2:
+    username: admin
+    password: NokiaSrl1!
+    platform: nokia_srlinux
+    hostname: 172.20.20.10
+site1-core-1:
+    username: admin
+    password: NokiaSrl1!
+    platform: nokia_srlinux
+    hostname: 172.20.20.3
+site1-core-2:
+    username: admin
+    password: NokiaSrl1!
+    platform: nokia_srlinux
+    hostname: 172.20.20.11
+site2-core-1-1:
+    username: admin
+    password: NokiaSrl1!
+    platform: nokia_srlinux
+    hostname: 172.20.20.16
+site2-core-1-2:
+    username: admin
+    password: NokiaSrl1!
+    platform: nokia_srlinux
+    hostname: 172.20.20.18
+site3-core-1-1:
+    username: admin
+    password: NokiaSrl1!
+    platform: nokia_srlinux
+    hostname: 172.20.20.12
+site3-core-1-2:
+    username: admin
+    password: NokiaSrl1!
+    platform: nokia_srlinux
+    hostname: 172.20.20.8
+sw-data-mh-1-1:
+    username: admin
+    password: NokiaSrl1!
+    platform: nokia_srlinux
+    hostname: 172.20.20.19
+sw-data-mh-1-2:
+    username: admin
+    password: NokiaSrl1!
+    platform: nokia_srlinux
+    hostname: 172.20.20.14
+sw-data-site2-1:
+    username: admin
+    password: NokiaSrl1!
+    platform: nokia_srlinux
+    hostname: 172.20.20.15
+sw-data-site3-1-1:
+    username: admin
+    password: NokiaSrl1!
+    platform: nokia_srlinux
+    hostname: 172.20.20.9
+sw-data-tpu-1:
+    username: admin
+    password: NokiaSrl1!
+    platform: nokia_srlinux
+    hostname: 172.20.20.17

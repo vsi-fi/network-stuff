@@ -1,0 +1,1027 @@
+{
+  "name": "DC",
+  "type": "clab",
+  "clab": {
+    "config": {
+      "prefix": "clab",
+      "mgmt": {
+        "network": "clab",
+        "bridge": "br-8fd397d28ebd",
+        "ipv4-subnet": "172.20.20.0/24",
+        "ipv4-gw": "172.20.20.1",
+        "ipv6-subnet": "3fff:172:20:20::/64",
+        "ipv6-gw": "3fff:172:20:20::1",
+        "external-access": true
+      }
+    }
+  },
+  "ssh-pub-keys": [],
+  "nodes": {
+    "dhcp-1": {
+      "index": "0",
+      "shortname": "dhcp-1",
+      "longname": "clab-DC-dhcp-1",
+      "fqdn": "dhcp-1.DC.io",
+      "group": "",
+      "labdir": "/home/vesa/network-stuff/nokia/dc/clab-DC/dhcp-1",
+      "kind": "linux",
+      "image": "labalpine",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.20.20.5",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:20:20::5",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-8fd397d28ebd",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/vesa/network-stuff/nokia/dc/clab-DC/dhcp-1",
+        "clab-node-longname": "clab-DC-dhcp-1",
+        "clab-node-name": "dhcp-1",
+        "clab-node-type": "",
+        "clab-owner": "vesa",
+        "clab-topo-file": "/home/vesa/network-stuff/nokia/dc/DC.clab.yml",
+        "containerlab": "DC"
+      },
+      "port-bindings": [
+        {
+          "host-ip": "",
+          "host-port": 0,
+          "port": 22,
+          "protocol": "tcp"
+        }
+      ]
+    },
+    "outside-it-rtr-1": {
+      "index": "1",
+      "shortname": "outside-it-rtr-1",
+      "longname": "clab-DC-outside-it-rtr-1",
+      "fqdn": "outside-it-rtr-1.DC.io",
+      "group": "",
+      "labdir": "/home/vesa/network-stuff/nokia/dc/clab-DC/outside-it-rtr-1",
+      "kind": "nokia_srlinux",
+      "image": "ghcr.io/nokia/srlinux:24.10",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.20.20.13",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:20:20::d",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "1a:f3:01:00:00:00",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-8fd397d28ebd",
+        "clab-node-group": "",
+        "clab-node-kind": "nokia_srlinux",
+        "clab-node-lab-dir": "/home/vesa/network-stuff/nokia/dc/clab-DC/outside-it-rtr-1",
+        "clab-node-longname": "clab-DC-outside-it-rtr-1",
+        "clab-node-name": "outside-it-rtr-1",
+        "clab-node-type": "ixr-d2l",
+        "clab-owner": "vesa",
+        "clab-topo-file": "/home/vesa/network-stuff/nokia/dc/DC.clab.yml",
+        "containerlab": "DC"
+      },
+      "port-bindings": [
+      ]
+    },
+    "outside-it-rtr-2": {
+      "index": "2",
+      "shortname": "outside-it-rtr-2",
+      "longname": "clab-DC-outside-it-rtr-2",
+      "fqdn": "outside-it-rtr-2.DC.io",
+      "group": "",
+      "labdir": "/home/vesa/network-stuff/nokia/dc/clab-DC/outside-it-rtr-2",
+      "kind": "nokia_srlinux",
+      "image": "ghcr.io/nokia/srlinux:24.10",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.20.20.10",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:20:20::a",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "1a:02:02:00:00:00",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-8fd397d28ebd",
+        "clab-node-group": "",
+        "clab-node-kind": "nokia_srlinux",
+        "clab-node-lab-dir": "/home/vesa/network-stuff/nokia/dc/clab-DC/outside-it-rtr-2",
+        "clab-node-longname": "clab-DC-outside-it-rtr-2",
+        "clab-node-name": "outside-it-rtr-2",
+        "clab-node-type": "ixr-d2l",
+        "clab-owner": "vesa",
+        "clab-topo-file": "/home/vesa/network-stuff/nokia/dc/DC.clab.yml",
+        "containerlab": "DC"
+      },
+      "port-bindings": [
+      ]
+    },
+    "site1-core-1": {
+      "index": "3",
+      "shortname": "site1-core-1",
+      "longname": "clab-DC-site1-core-1",
+      "fqdn": "site1-core-1.DC.io",
+      "group": "",
+      "labdir": "/home/vesa/network-stuff/nokia/dc/clab-DC/site1-core-1",
+      "kind": "nokia_srlinux",
+      "image": "ghcr.io/nokia/srlinux:24.10",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.20.20.3",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:20:20::3",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "1a:9a:03:00:00:00",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-8fd397d28ebd",
+        "clab-node-group": "",
+        "clab-node-kind": "nokia_srlinux",
+        "clab-node-lab-dir": "/home/vesa/network-stuff/nokia/dc/clab-DC/site1-core-1",
+        "clab-node-longname": "clab-DC-site1-core-1",
+        "clab-node-name": "site1-core-1",
+        "clab-node-type": "ixr-d2l",
+        "clab-owner": "vesa",
+        "clab-topo-file": "/home/vesa/network-stuff/nokia/dc/DC.clab.yml",
+        "containerlab": "DC"
+      },
+      "port-bindings": [
+      ]
+    },
+    "site1-core-2": {
+      "index": "4",
+      "shortname": "site1-core-2",
+      "longname": "clab-DC-site1-core-2",
+      "fqdn": "site1-core-2.DC.io",
+      "group": "",
+      "labdir": "/home/vesa/network-stuff/nokia/dc/clab-DC/site1-core-2",
+      "kind": "nokia_srlinux",
+      "image": "ghcr.io/nokia/srlinux:24.10",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.20.20.11",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:20:20::b",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "1a:00:04:00:00:00",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-8fd397d28ebd",
+        "clab-node-group": "",
+        "clab-node-kind": "nokia_srlinux",
+        "clab-node-lab-dir": "/home/vesa/network-stuff/nokia/dc/clab-DC/site1-core-2",
+        "clab-node-longname": "clab-DC-site1-core-2",
+        "clab-node-name": "site1-core-2",
+        "clab-node-type": "ixr-d2l",
+        "clab-owner": "vesa",
+        "clab-topo-file": "/home/vesa/network-stuff/nokia/dc/DC.clab.yml",
+        "containerlab": "DC"
+      },
+      "port-bindings": [
+      ]
+    },
+    "site1-mh-host-1": {
+      "index": "5",
+      "shortname": "site1-mh-host-1",
+      "longname": "clab-DC-site1-mh-host-1",
+      "fqdn": "site1-mh-host-1.DC.io",
+      "group": "",
+      "labdir": "/home/vesa/network-stuff/nokia/dc/clab-DC/site1-mh-host-1",
+      "kind": "linux",
+      "image": "labalpine",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.20.20.4",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:20:20::4",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-8fd397d28ebd",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/vesa/network-stuff/nokia/dc/clab-DC/site1-mh-host-1",
+        "clab-node-longname": "clab-DC-site1-mh-host-1",
+        "clab-node-name": "site1-mh-host-1",
+        "clab-node-type": "",
+        "clab-owner": "vesa",
+        "clab-topo-file": "/home/vesa/network-stuff/nokia/dc/DC.clab.yml",
+        "containerlab": "DC"
+      },
+      "port-bindings": [
+        {
+          "host-ip": "",
+          "host-port": 0,
+          "port": 22,
+          "protocol": "tcp"
+        }
+      ]
+    },
+    "site1-tpu-1-1": {
+      "index": "6",
+      "shortname": "site1-tpu-1-1",
+      "longname": "clab-DC-site1-tpu-1-1",
+      "fqdn": "site1-tpu-1-1.DC.io",
+      "group": "",
+      "labdir": "/home/vesa/network-stuff/nokia/dc/clab-DC/site1-tpu-1-1",
+      "kind": "linux",
+      "image": "labalpine",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.20.20.7",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:20:20::7",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-8fd397d28ebd",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/vesa/network-stuff/nokia/dc/clab-DC/site1-tpu-1-1",
+        "clab-node-longname": "clab-DC-site1-tpu-1-1",
+        "clab-node-name": "site1-tpu-1-1",
+        "clab-node-type": "",
+        "clab-owner": "vesa",
+        "clab-topo-file": "/home/vesa/network-stuff/nokia/dc/DC.clab.yml",
+        "containerlab": "DC"
+      },
+      "port-bindings": [
+        {
+          "host-ip": "",
+          "host-port": 0,
+          "port": 22,
+          "protocol": "tcp"
+        }
+      ]
+    },
+    "site2-core-1-1": {
+      "index": "7",
+      "shortname": "site2-core-1-1",
+      "longname": "clab-DC-site2-core-1-1",
+      "fqdn": "site2-core-1-1.DC.io",
+      "group": "",
+      "labdir": "/home/vesa/network-stuff/nokia/dc/clab-DC/site2-core-1-1",
+      "kind": "nokia_srlinux",
+      "image": "ghcr.io/nokia/srlinux:24.10",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.20.20.16",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:20:20::10",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "1a:2e:07:00:00:00",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-8fd397d28ebd",
+        "clab-node-group": "",
+        "clab-node-kind": "nokia_srlinux",
+        "clab-node-lab-dir": "/home/vesa/network-stuff/nokia/dc/clab-DC/site2-core-1-1",
+        "clab-node-longname": "clab-DC-site2-core-1-1",
+        "clab-node-name": "site2-core-1-1",
+        "clab-node-type": "ixr-d2l",
+        "clab-owner": "vesa",
+        "clab-topo-file": "/home/vesa/network-stuff/nokia/dc/DC.clab.yml",
+        "containerlab": "DC"
+      },
+      "port-bindings": [
+      ]
+    },
+    "site2-core-1-2": {
+      "index": "8",
+      "shortname": "site2-core-1-2",
+      "longname": "clab-DC-site2-core-1-2",
+      "fqdn": "site2-core-1-2.DC.io",
+      "group": "",
+      "labdir": "/home/vesa/network-stuff/nokia/dc/clab-DC/site2-core-1-2",
+      "kind": "nokia_srlinux",
+      "image": "ghcr.io/nokia/srlinux:24.10",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.20.20.18",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:20:20::12",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "1a:0d:08:00:00:00",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-8fd397d28ebd",
+        "clab-node-group": "",
+        "clab-node-kind": "nokia_srlinux",
+        "clab-node-lab-dir": "/home/vesa/network-stuff/nokia/dc/clab-DC/site2-core-1-2",
+        "clab-node-longname": "clab-DC-site2-core-1-2",
+        "clab-node-name": "site2-core-1-2",
+        "clab-node-type": "ixr-d2l",
+        "clab-owner": "vesa",
+        "clab-topo-file": "/home/vesa/network-stuff/nokia/dc/DC.clab.yml",
+        "containerlab": "DC"
+      },
+      "port-bindings": [
+      ]
+    },
+    "site2-host-1": {
+      "index": "9",
+      "shortname": "site2-host-1",
+      "longname": "clab-DC-site2-host-1",
+      "fqdn": "site2-host-1.DC.io",
+      "group": "",
+      "labdir": "/home/vesa/network-stuff/nokia/dc/clab-DC/site2-host-1",
+      "kind": "linux",
+      "image": "labalpine",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.20.20.2",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:20:20::2",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-8fd397d28ebd",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/vesa/network-stuff/nokia/dc/clab-DC/site2-host-1",
+        "clab-node-longname": "clab-DC-site2-host-1",
+        "clab-node-name": "site2-host-1",
+        "clab-node-type": "",
+        "clab-owner": "vesa",
+        "clab-topo-file": "/home/vesa/network-stuff/nokia/dc/DC.clab.yml",
+        "containerlab": "DC"
+      },
+      "port-bindings": [
+        {
+          "host-ip": "",
+          "host-port": 0,
+          "port": 22,
+          "protocol": "tcp"
+        }
+      ]
+    },
+    "site3-core-1-1": {
+      "index": "10",
+      "shortname": "site3-core-1-1",
+      "longname": "clab-DC-site3-core-1-1",
+      "fqdn": "site3-core-1-1.DC.io",
+      "group": "",
+      "labdir": "/home/vesa/network-stuff/nokia/dc/clab-DC/site3-core-1-1",
+      "kind": "nokia_srlinux",
+      "image": "ghcr.io/nokia/srlinux:24.10",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.20.20.12",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:20:20::c",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "1a:3f:0a:00:00:00",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-8fd397d28ebd",
+        "clab-node-group": "",
+        "clab-node-kind": "nokia_srlinux",
+        "clab-node-lab-dir": "/home/vesa/network-stuff/nokia/dc/clab-DC/site3-core-1-1",
+        "clab-node-longname": "clab-DC-site3-core-1-1",
+        "clab-node-name": "site3-core-1-1",
+        "clab-node-type": "ixr-d2l",
+        "clab-owner": "vesa",
+        "clab-topo-file": "/home/vesa/network-stuff/nokia/dc/DC.clab.yml",
+        "containerlab": "DC"
+      },
+      "port-bindings": [
+      ]
+    },
+    "site3-core-1-2": {
+      "index": "11",
+      "shortname": "site3-core-1-2",
+      "longname": "clab-DC-site3-core-1-2",
+      "fqdn": "site3-core-1-2.DC.io",
+      "group": "",
+      "labdir": "/home/vesa/network-stuff/nokia/dc/clab-DC/site3-core-1-2",
+      "kind": "nokia_srlinux",
+      "image": "ghcr.io/nokia/srlinux:24.10",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.20.20.8",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:20:20::8",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "1a:a3:0b:00:00:00",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-8fd397d28ebd",
+        "clab-node-group": "",
+        "clab-node-kind": "nokia_srlinux",
+        "clab-node-lab-dir": "/home/vesa/network-stuff/nokia/dc/clab-DC/site3-core-1-2",
+        "clab-node-longname": "clab-DC-site3-core-1-2",
+        "clab-node-name": "site3-core-1-2",
+        "clab-node-type": "ixr-d2l",
+        "clab-owner": "vesa",
+        "clab-topo-file": "/home/vesa/network-stuff/nokia/dc/DC.clab.yml",
+        "containerlab": "DC"
+      },
+      "port-bindings": [
+      ]
+    },
+    "site3-host-1": {
+      "index": "12",
+      "shortname": "site3-host-1",
+      "longname": "clab-DC-site3-host-1",
+      "fqdn": "site3-host-1.DC.io",
+      "group": "",
+      "labdir": "/home/vesa/network-stuff/nokia/dc/clab-DC/site3-host-1",
+      "kind": "linux",
+      "image": "labalpine",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.20.20.6",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:20:20::6",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-8fd397d28ebd",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/vesa/network-stuff/nokia/dc/clab-DC/site3-host-1",
+        "clab-node-longname": "clab-DC-site3-host-1",
+        "clab-node-name": "site3-host-1",
+        "clab-node-type": "",
+        "clab-owner": "vesa",
+        "clab-topo-file": "/home/vesa/network-stuff/nokia/dc/DC.clab.yml",
+        "containerlab": "DC"
+      },
+      "port-bindings": [
+        {
+          "host-ip": "",
+          "host-port": 0,
+          "port": 22,
+          "protocol": "tcp"
+        }
+      ]
+    },
+    "sw-data-mh-1-1": {
+      "index": "13",
+      "shortname": "sw-data-mh-1-1",
+      "longname": "clab-DC-sw-data-mh-1-1",
+      "fqdn": "sw-data-mh-1-1.DC.io",
+      "group": "",
+      "labdir": "/home/vesa/network-stuff/nokia/dc/clab-DC/sw-data-mh-1-1",
+      "kind": "nokia_srlinux",
+      "image": "ghcr.io/nokia/srlinux:24.10",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.20.20.19",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:20:20::13",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "1a:78:0d:00:00:00",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-8fd397d28ebd",
+        "clab-node-group": "",
+        "clab-node-kind": "nokia_srlinux",
+        "clab-node-lab-dir": "/home/vesa/network-stuff/nokia/dc/clab-DC/sw-data-mh-1-1",
+        "clab-node-longname": "clab-DC-sw-data-mh-1-1",
+        "clab-node-name": "sw-data-mh-1-1",
+        "clab-node-type": "ixr-d2l",
+        "clab-owner": "vesa",
+        "clab-topo-file": "/home/vesa/network-stuff/nokia/dc/DC.clab.yml",
+        "containerlab": "DC"
+      },
+      "port-bindings": [
+      ]
+    },
+    "sw-data-mh-1-2": {
+      "index": "14",
+      "shortname": "sw-data-mh-1-2",
+      "longname": "clab-DC-sw-data-mh-1-2",
+      "fqdn": "sw-data-mh-1-2.DC.io",
+      "group": "",
+      "labdir": "/home/vesa/network-stuff/nokia/dc/clab-DC/sw-data-mh-1-2",
+      "kind": "nokia_srlinux",
+      "image": "ghcr.io/nokia/srlinux:24.10",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.20.20.14",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:20:20::e",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "1a:6b:0e:00:00:00",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-8fd397d28ebd",
+        "clab-node-group": "",
+        "clab-node-kind": "nokia_srlinux",
+        "clab-node-lab-dir": "/home/vesa/network-stuff/nokia/dc/clab-DC/sw-data-mh-1-2",
+        "clab-node-longname": "clab-DC-sw-data-mh-1-2",
+        "clab-node-name": "sw-data-mh-1-2",
+        "clab-node-type": "ixr-d2l",
+        "clab-owner": "vesa",
+        "clab-topo-file": "/home/vesa/network-stuff/nokia/dc/DC.clab.yml",
+        "containerlab": "DC"
+      },
+      "port-bindings": [
+      ]
+    },
+    "sw-data-site2-1": {
+      "index": "15",
+      "shortname": "sw-data-site2-1",
+      "longname": "clab-DC-sw-data-site2-1",
+      "fqdn": "sw-data-site2-1.DC.io",
+      "group": "",
+      "labdir": "/home/vesa/network-stuff/nokia/dc/clab-DC/sw-data-site2-1",
+      "kind": "nokia_srlinux",
+      "image": "ghcr.io/nokia/srlinux:24.10",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.20.20.15",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:20:20::f",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "1a:1c:0f:00:00:00",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-8fd397d28ebd",
+        "clab-node-group": "",
+        "clab-node-kind": "nokia_srlinux",
+        "clab-node-lab-dir": "/home/vesa/network-stuff/nokia/dc/clab-DC/sw-data-site2-1",
+        "clab-node-longname": "clab-DC-sw-data-site2-1",
+        "clab-node-name": "sw-data-site2-1",
+        "clab-node-type": "ixr-d2l",
+        "clab-owner": "vesa",
+        "clab-topo-file": "/home/vesa/network-stuff/nokia/dc/DC.clab.yml",
+        "containerlab": "DC"
+      },
+      "port-bindings": [
+      ]
+    },
+    "sw-data-site3-1-1": {
+      "index": "16",
+      "shortname": "sw-data-site3-1-1",
+      "longname": "clab-DC-sw-data-site3-1-1",
+      "fqdn": "sw-data-site3-1-1.DC.io",
+      "group": "",
+      "labdir": "/home/vesa/network-stuff/nokia/dc/clab-DC/sw-data-site3-1-1",
+      "kind": "nokia_srlinux",
+      "image": "ghcr.io/nokia/srlinux:24.10",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.20.20.9",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:20:20::9",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "1a:b7:10:00:00:00",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-8fd397d28ebd",
+        "clab-node-group": "",
+        "clab-node-kind": "nokia_srlinux",
+        "clab-node-lab-dir": "/home/vesa/network-stuff/nokia/dc/clab-DC/sw-data-site3-1-1",
+        "clab-node-longname": "clab-DC-sw-data-site3-1-1",
+        "clab-node-name": "sw-data-site3-1-1",
+        "clab-node-type": "ixr-d2l",
+        "clab-owner": "vesa",
+        "clab-topo-file": "/home/vesa/network-stuff/nokia/dc/DC.clab.yml",
+        "containerlab": "DC"
+      },
+      "port-bindings": [
+      ]
+    },
+    "sw-data-tpu-1": {
+      "index": "17",
+      "shortname": "sw-data-tpu-1",
+      "longname": "clab-DC-sw-data-tpu-1",
+      "fqdn": "sw-data-tpu-1.DC.io",
+      "group": "",
+      "labdir": "/home/vesa/network-stuff/nokia/dc/clab-DC/sw-data-tpu-1",
+      "kind": "nokia_srlinux",
+      "image": "ghcr.io/nokia/srlinux:24.10",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.20.20.17",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:20:20::11",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "1a:5b:11:00:00:00",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-8fd397d28ebd",
+        "clab-node-group": "",
+        "clab-node-kind": "nokia_srlinux",
+        "clab-node-lab-dir": "/home/vesa/network-stuff/nokia/dc/clab-DC/sw-data-tpu-1",
+        "clab-node-longname": "clab-DC-sw-data-tpu-1",
+        "clab-node-name": "sw-data-tpu-1",
+        "clab-node-type": "ixr-d2l",
+        "clab-owner": "vesa",
+        "clab-topo-file": "/home/vesa/network-stuff/nokia/dc/DC.clab.yml",
+        "containerlab": "DC"
+      },
+      "port-bindings": [
+      ]
+    }
+  },
+  "links": [
+    {
+      "endpoints": {
+        "a": {
+          "node": "site1-core-1",
+          "interface": "e1-10",
+          "mac": "aa:c1:ab:a7:d5:fa",
+          "peer": "z"
+        },
+        "z": {
+          "node": "site1-core-2",
+          "interface": "e1-10",
+          "mac": "aa:c1:ab:67:86:3a",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "site2-core-1-1",
+          "interface": "e1-10",
+          "mac": "aa:c1:ab:25:b7:43",
+          "peer": "z"
+        },
+        "z": {
+          "node": "site2-core-1-2",
+          "interface": "e1-10",
+          "mac": "aa:c1:ab:be:92:d0",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "site3-core-1-1",
+          "interface": "e1-10",
+          "mac": "aa:c1:ab:4e:69:a9",
+          "peer": "z"
+        },
+        "z": {
+          "node": "site3-core-1-2",
+          "interface": "e1-10",
+          "mac": "aa:c1:ab:ad:6f:9c",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "site1-core-1",
+          "interface": "e1-11",
+          "mac": "aa:c1:ab:fa:02:a4",
+          "peer": "z"
+        },
+        "z": {
+          "node": "site3-core-1-1",
+          "interface": "e1-11",
+          "mac": "aa:c1:ab:09:44:7f",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "site1-core-2",
+          "interface": "e1-11",
+          "mac": "aa:c1:ab:2c:23:9e",
+          "peer": "z"
+        },
+        "z": {
+          "node": "site3-core-1-2",
+          "interface": "e1-11",
+          "mac": "aa:c1:ab:89:be:52",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "site1-core-1",
+          "interface": "e1-12",
+          "mac": "aa:c1:ab:ea:7d:23",
+          "peer": "z"
+        },
+        "z": {
+          "node": "site2-core-1-1",
+          "interface": "e1-11",
+          "mac": "aa:c1:ab:1e:35:34",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "site1-core-2",
+          "interface": "e1-12",
+          "mac": "aa:c1:ab:0e:60:7e",
+          "peer": "z"
+        },
+        "z": {
+          "node": "site2-core-1-2",
+          "interface": "e1-11",
+          "mac": "aa:c1:ab:58:67:e9",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "site1-core-1",
+          "interface": "e1-16",
+          "mac": "aa:c1:ab:f9:91:c2",
+          "peer": "z"
+        },
+        "z": {
+          "node": "outside-it-rtr-1",
+          "interface": "e1-1",
+          "mac": "aa:c1:ab:b2:97:c4",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "site1-core-2",
+          "interface": "e1-16",
+          "mac": "aa:c1:ab:2a:be:4b",
+          "peer": "z"
+        },
+        "z": {
+          "node": "outside-it-rtr-1",
+          "interface": "e1-2",
+          "mac": "aa:c1:ab:9c:66:e0",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "site1-core-1",
+          "interface": "e1-1",
+          "mac": "aa:c1:ab:02:c5:64",
+          "peer": "z"
+        },
+        "z": {
+          "node": "sw-data-tpu-1",
+          "interface": "e1-1",
+          "mac": "aa:c1:ab:6c:8a:e4",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "site1-core-2",
+          "interface": "e1-1",
+          "mac": "aa:c1:ab:85:45:bb",
+          "peer": "z"
+        },
+        "z": {
+          "node": "sw-data-tpu-1",
+          "interface": "e1-2",
+          "mac": "aa:c1:ab:bd:05:1d",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "site1-core-1",
+          "interface": "e1-2",
+          "mac": "aa:c1:ab:3a:c3:01",
+          "peer": "z"
+        },
+        "z": {
+          "node": "sw-data-mh-1-1",
+          "interface": "e1-1",
+          "mac": "aa:c1:ab:02:18:32",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "site1-core-2",
+          "interface": "e1-2",
+          "mac": "aa:c1:ab:30:c3:d2",
+          "peer": "z"
+        },
+        "z": {
+          "node": "sw-data-mh-1-1",
+          "interface": "e1-2",
+          "mac": "aa:c1:ab:d7:30:18",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "site1-core-1",
+          "interface": "e1-3",
+          "mac": "aa:c1:ab:fc:db:0d",
+          "peer": "z"
+        },
+        "z": {
+          "node": "sw-data-mh-1-2",
+          "interface": "e1-1",
+          "mac": "aa:c1:ab:b2:05:dd",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "site1-core-2",
+          "interface": "e1-3",
+          "mac": "aa:c1:ab:43:2d:63",
+          "peer": "z"
+        },
+        "z": {
+          "node": "sw-data-mh-1-2",
+          "interface": "e1-2",
+          "mac": "aa:c1:ab:85:59:cf",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "site2-core-1-1",
+          "interface": "e1-1",
+          "mac": "aa:c1:ab:fe:97:bf",
+          "peer": "z"
+        },
+        "z": {
+          "node": "sw-data-site2-1",
+          "interface": "e1-1",
+          "mac": "aa:c1:ab:33:cd:6a",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "site2-core-1-2",
+          "interface": "e1-1",
+          "mac": "aa:c1:ab:68:76:60",
+          "peer": "z"
+        },
+        "z": {
+          "node": "sw-data-site2-1",
+          "interface": "e1-2",
+          "mac": "aa:c1:ab:94:01:88",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "site3-core-1-1",
+          "interface": "e1-1",
+          "mac": "aa:c1:ab:2d:c5:56",
+          "peer": "z"
+        },
+        "z": {
+          "node": "sw-data-site3-1-1",
+          "interface": "e1-1",
+          "mac": "aa:c1:ab:0b:3b:14",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "site3-core-1-2",
+          "interface": "e1-1",
+          "mac": "aa:c1:ab:67:7b:9b",
+          "peer": "z"
+        },
+        "z": {
+          "node": "sw-data-site3-1-1",
+          "interface": "e1-2",
+          "mac": "aa:c1:ab:25:70:22",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "sw-data-tpu-1",
+          "interface": "e1-10",
+          "mac": "aa:c1:ab:e7:fb:d6",
+          "peer": "z"
+        },
+        "z": {
+          "node": "site1-tpu-1-1",
+          "interface": "eth1",
+          "mac": "aa:c1:ab:90:0b:1d",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "sw-data-mh-1-1",
+          "interface": "e1-10",
+          "mac": "aa:c1:ab:89:7e:41",
+          "peer": "z"
+        },
+        "z": {
+          "node": "site1-mh-host-1",
+          "interface": "eth1",
+          "mac": "aa:c1:ab:51:b9:32",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "sw-data-mh-1-2",
+          "interface": "e1-10",
+          "mac": "aa:c1:ab:75:75:80",
+          "peer": "z"
+        },
+        "z": {
+          "node": "site1-mh-host-1",
+          "interface": "eth2",
+          "mac": "aa:c1:ab:55:3f:f0",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "sw-data-site3-1-1",
+          "interface": "e1-10",
+          "mac": "aa:c1:ab:ed:f7:10",
+          "peer": "z"
+        },
+        "z": {
+          "node": "site3-host-1",
+          "interface": "eth1",
+          "mac": "aa:c1:ab:4c:0c:c3",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "sw-data-site2-1",
+          "interface": "e1-10",
+          "mac": "aa:c1:ab:cc:96:a6",
+          "peer": "z"
+        },
+        "z": {
+          "node": "site2-host-1",
+          "interface": "eth1",
+          "mac": "aa:c1:ab:12:1d:7a",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "site1-core-1",
+          "interface": "e1-17",
+          "mac": "aa:c1:ab:54:e6:75",
+          "peer": "z"
+        },
+        "z": {
+          "node": "dhcp-1",
+          "interface": "eth1",
+          "mac": "aa:c1:ab:87:4c:bc",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "site1-core-2",
+          "interface": "e1-17",
+          "mac": "aa:c1:ab:18:58:3b",
+          "peer": "z"
+        },
+        "z": {
+          "node": "dhcp-1",
+          "interface": "eth2",
+          "mac": "aa:c1:ab:af:94:00",
+          "peer": "a"
+        }
+      }
+    }
+  ]
+}
