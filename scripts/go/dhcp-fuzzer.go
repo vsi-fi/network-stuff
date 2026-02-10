@@ -3,6 +3,18 @@ package main
 Tool to fuzz dhcp relays/server
 vsimola@cern.ch with little help from perplexity.ai <2026>
 Usage: $0 -iface vlan114 -vlan 0 -debug, this would send a vlan tagged frame out using the vlan 114. So the vlan tagging bit is little broken at the moment 
+
+To build:
+(Make sure you have pcap-devel package of some form installed, pcap.h etc.)
+mkdir dhcp-fuzzer
+cp dhcp-fuzzer.go dhcp-fuzzer/.
+go mod init dhcp-fuzzer
+go get github.com/google/gopacket
+go get github.com/google/gopacket/layers
+go get github.com/google/gopacket/pcap
+go get github.com/insomniacslk/dhcp/dhcpv4
+go build dhcp-fuzzer.go
+
 */
 
 import (
