@@ -65,7 +65,7 @@ make
 ```
 
 After the above I was able to start the instances and eventually also pfe came up with the following containerlab file
-
+Note that the interfaces names below could/should just as well be of ge-0/0/X -type.
 ```
 name: test-lab
 mgmt:
@@ -96,5 +96,14 @@ topology:
 ```
 
 ### Things to keep in mind ###
-I have no idea why Juniper thinks I deserved no vrouter on AMD, maybe there is some technical reason for this which will screw up lab?
+I have no idea why Juniper thinks I deserved no vrouter on AMD, maybe there is some technical reason for this which will eventually screw up the lab?
+Be that as it may, I haven't faced any issues with this while extensively labbing stuff.
 For sure, this procedure has to be done every time there is a new version of vrouter, which is both annoying and frustrating.
+
+### How about vJunosswitch? ###
+It seems that vJunos-switch-25.4R1.12.qcow2 has the exact same issue as vjunosrouter above.
+As a truly groundbreaking revalation, applying the same fix as with vJunos-router above also solves the issue with vJunosswitch.
+
+### What about vJunosEvolved? ###
+Juniper provides images of vJunosEvolved in iso format at https://support.juniper.net/support/downloads/?p=vjunosevolved
+Junos EVO is built differently to vjunosrouter and vjunosswitch. Given the experiences with vJunos(switch|router), what I find truly astonishing is that someone didn't go out of their way to exploit this opportunity to explicitly make EVO image fail loading on AMD, or at least 25.4R1.13-EVOI20251216022751-evo-builder-1 runs fine out of the box with no modifications required. Good job.
