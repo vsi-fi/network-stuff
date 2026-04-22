@@ -95,6 +95,10 @@ info network-instance default protocols bgp
     neighbor 10.255.255.0 {
         peer-group UPSTREAM // Finally, specify the upstream neighbor and assign it to a peer group
     }
+info network-instance default ip-forwarding
+     receive-ipv4-check false // this is required. Otherwise routes find their way into routing table they cannot be used for forwarding
+--{ candidate shared default }--[  ]--
+
 ```
 ### Access router - device where hosts etc. would connect
 This is largely just a repeat of the above
@@ -132,6 +136,10 @@ info network-instance default protocols bgp
             as-number 4201000099
         }
     }
+info network-instance default ip-forwarding
+     receive-ipv4-check false // this is required. Otherwise routes find their way into routing table they cannot be used for forwarding
+--{ candidate shared default }--[  ]--
+
 ```
 ### Verification
 Upstream sees only the aggr1 64513 in the AS_PATH
