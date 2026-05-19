@@ -16,8 +16,9 @@ func main() {
 	//ifaceName := "data0"
 	device := flag.String("device", "VLAN114", "Network interface that we'll try to use to send the pauses.")
 	prio_to_pause := flag.String("prio", "all", "Which priorities to pause [0-7], default to all")
-	num_of_pkts := flag.Int("num_of_pkts",1, "How many packets to send?")
-	interval := flag.Int("interval", 1000, "Sleep in milliseconds between sending packets") 
+	num_of_pkts := flag.Int("num_of_pkts",10, "How many packets to send?")
+	//interval := flag.Int("interval", 1000, "Sleep in milliseconds between sending packets") 
+	interval := flag.Int("interval", 5000, "Sleep in *nanooseconds* between sending packets") 
 	ethertype_str := flag.String("ethertype", "0x8808", "Ethertype to use if trying to mess with the device")
 	opcode_str := flag.String("opcode", "0x0101", "Opcode to use")
 	dst_mac_str := flag.String("dst_mac", "01:80:C2:00:00:01", "destination mac address to use")
@@ -92,18 +93,21 @@ func main() {
 	count := 0
 	status := *num_of_pkts / 10 
 	for count < *num_of_pkts {
-		if count%status == 0 {
+		if count > 10 &&  count%status == 0 {
+			log.Println("Sending packet number", count)
+		} else if count <= 10 {
 			log.Println("Sending packet number", count)
 		}
 		err = handle.WritePacketData(buffer.Bytes())
 		if err != nil {
 			log.Fatal("Send failed:", err)
 		}
-		time.Sleep(time.Duration(*interval) * time.Millisecond)
+		//time.Sleep(time.Duration(*interval) * time.Millisecond)
+		time.Sleep(time.Duration(*interval) * time.Nanosecond)
 		count++
 	}
 
-	log.Println("PFC pause frame sent successfully (no VLAN) using device ", *device, " with priority ", *prio_to_pause)
+	log.Println("PFC pause frame(s) sent successfully using device ", *device, " with priority ", *prio_to_pause)
 }
 
 func getMAC(ifaceName string) net.HardwareAddr {
